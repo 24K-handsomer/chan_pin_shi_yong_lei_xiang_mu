@@ -1,0 +1,540 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="__STATIC__/shiyong/css/tanceng.css">
+<!-- <div id="floatBoxlogin" class="floatBox "> -->
+</head>
+<body marginwidth="0" marginheight="0">
+<div id="isLand" class="">
+    <div class="popupTabs">
+        <i class="s-cur">申请</i>
+        <a href="javascript:void(0)" class="pop-btn-close"></a>
+    </div>
+    <div class="popupCon">
+        <!-- 免注册登录 -->
+        <div class="popupItem" style="display:block;">
+            <div class="phoneLogin tabPhoneLogin">
+            	<input type="hidden" id="isPhoneCaptcha" value="0">
+                <form autocomplete="off" action="/index.php/Index/Ajax/checklog" method="post" name="loginform2" id="loginform2" class="clearfix">
+                    <!-- <input type="hidden" id="return" name="return" value="https://try.pcbaby.com.cn/prod_4423.html?isReturn=1"> -->
+                    <input type="hidden" name="pro_id" value="{?$pro_id?}">
+                    <input type="hidden" name="pro_title" value="{?$pro_title?}">
+                    <input type="hidden" name="pro_status" value="{?$pro_status?}">
+                    <div class="noRegBox">
+                        <div class="dName">
+                            <i class="u-ico-mobile">申请人</i>
+                            <input type="text" class="inp" id="username" value="" placeholder="请输入申请人真实姓名" maxlength="11" name="username" style="color: #999;">
+                        </div>
+                        <p class="u-error-tip" id="JusernameTip">请输入申请人真实姓名</p>
+
+                        <div class="dName">
+                            <i class="u-ico-mobile">手机号</i>
+                            <input type="text" class="inp" id="Jmobile" value="请输入手机号码" placeholder="请输入手机号码" maxlength="11" name="mobile" style="color: #999;">
+                        </div>
+                        <p class="u-error-tip" id="JmobileTip">请输入正确的手机号码</p>
+                        <!-- <div id="JyzmWrap" style="display:none;">
+                            <div class="imgYzm">
+                                <div class="dName">
+                                    <i class="u-ico-picYzm">安全验证码</i>
+                                    <input type="text" class="inp" id="JimgYzm" maxlength="5" style="width:110px;">
+                                </div>
+                                <img src="//captcha.pcbaby.com.cn/captcha/v.jpg" title="看不清？换一张" class="yzm" id="Jyzm2" alt="" style="width:122px;">
+                            </div>
+                            <p class="u-error-tip" id="JimgYzmTip">请输入正确的图形验证码</p>
+                        </div>
+                        <div class="phoneYzm">
+                            <div class="dName">
+                                <i class="u-ico-phoneYzm">短信验证码</i>
+                                <input type="text" class="inp" id="JtxtYzm" name="mobileVCode" maxlength="6">
+                            </div>
+                            <input type="button" value="获取验证码" disabled="true" class="u-btn-yzm" id="JbtnGetPhoneYzm">
+                        </div>
+                        <p class="u-error-tip" id="JphoneYzmTip">短信验证码错误</p> -->
+                        <input id="login2" type="submit" value="申　请">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
+
+<script class="defer" src="__STATIC__/shiyong/js/lib-jquery1.4.2.js"></script>
+<script class="defer" src="__STATIC__/shiyong/js/jquery.cookie.js"></script>
+<script src="__STATIC__/shiyong/js/jquery.form.js"></script>
+<script src="__STATIC__/shiyong/js/jQuery.windowName.plugin2.js"></script>
+<script type="text/javascript">
+//tab登录切换
+function tabChange(cur, tabs, cons) {
+    var curNum = cur,
+        _tabs = tabs || $(".popupTabs i"),
+        _cons = cons || $(".popupCon .popupItem");
+    _tabs.eq(curNum).siblings().removeClass('s-cur');
+    _tabs.eq(curNum).addClass('s-cur');
+    _cons.hide();
+    _cons.eq(curNum).show();
+
+}
+
+$(".popupTabs i").click(function() {
+    var index = $(".popupTabs i").index($(this));
+    tabChange(index, $(".popupTabs i"), $(".popupCon .popupItem"));
+});
+
+function closeDia() {
+	parent.PCDialog.hide();
+	return false;
+}
+	
+function login() {
+	var username = $.trim($('#username').val());
+	var password = $.trim($('#password').val());
+	var autoLogin = $('#JdlInpCheck').attr('checked') ? $.trim($('#JdlInpCheck').val()) : '';
+	
+	if (username == '' || password == '') {
+		$('#errMsg').html('<em class="dl-emTips">用户名和密码必须输入</em>');
+		return;
+	}
+	
+	parent.login(username, password, autoLogin);
+}
+	
+	function validateUser() {
+		var username = $.trim($('#username').val());
+		
+		if (username == '') {
+			$('#errMsg').html('<em class="dl-emTips">用户名必须输入</em>');
+		} else {
+			$('#errMsg').html('');
+			
+			if(checkMobile(username)){
+         	   // 判断是否显示免注册登录提示
+         	   $.ajax({
+		            type: "get",
+		            url: "//passport3.pcbaby.com.cn/passport3/api/isFastLoginAndNotResetPwd.jsp?mobile=" + username,
+		            dataType: "jsonp",
+		            success: function (data) {
+		            	if(data.status == 0 && data.result){
+		            		$("#errMsg").html('<em class="dl-emTips">可使用免注册登录直接登录</em>');
+		    	    	}
+		            },
+		            error:function(err){
+		            	console.log(err);
+					}
+		        });
+            }
+		}
+	}
+	function validatePwd() {
+		var password = $.trim($('#password').val());
+		if (password == '') {
+			$('#errMsg').html('<em class="dl-emTips">密码必须输入</em>');
+			return;
+		} else {
+			$('#errMsg').html('');
+		}
+	}
+	
+	/*function goModifyReport() {
+		parent.redirectTo('//try.pcbaby.com.cn/a/wreport_r-1.html');
+	}
+	function qqLogin() {
+		parent.redirectTo('http://my.pcbaby.com.cn/passport/opens/authorize.jsp?type=qzone_baby&return=https://try.pcbaby.com.cn/prod_4423.html?isReturn=1');
+	}
+	function weiboLogin() {
+		parent.redirectTo('http://my.pcbaby.com.cn/passport/opens/authorize.jsp?type=sina_baby&return=https://try.pcbaby.com.cn/prod_4423.html?isReturn=1');
+	}
+	function weixinLogin() {
+		parent.redirectTo('http://my.pcbaby.com.cn/passport/opens/authorize.jsp?type=weixin_baby&return=https://try.pcbaby.com.cn/prod_4423.html?isReturn=1');
+	}*/
+	
+	function keyupEvent() {
+		var username = $.trim($('#username').val());
+		var password = $.trim($('#password').val());
+		if (username == '' || (username == '' && password == '')) {
+			$('#username').focus();
+		} else if (password == '') {
+			$('#password').focus();
+		} else {
+			login();
+		}
+	}
+	
+	$(document).ready(function () {
+		// 设置免注册登录的历史手机号码
+	   	/*if($.cookie("PCBABY_MOBILE_REG_LOGIN") && checkMobile($.cookie("PCBABY_MOBILE_REG_LOGIN"))){
+			$('#JbtnGetPhoneYzm').attr('disabled', false);
+			$("#Jmobile").val($.cookie("PCBABY_MOBILE_REG_LOGIN"));
+		}*/
+		
+		$("#loginform2").ajaxForm(options2);
+		
+		/*$('#username').keyup(function (e) {
+			if (e.which == 13) {
+				keyupEvent();
+			}
+		});
+		$('#password').keyup(function (e) {
+			if (e.which == 13) {
+				keyupEvent();
+			}
+		});*/
+	});
+	
+	//免注册登录 S
+
+    var options2 = {
+        windowname: 1,
+        cache: false,
+        type: 'POST',
+        timeout: 100000,
+        withCookie: true,
+        error: function(xhr) {
+            if (xhr.status != 0) {
+                $('#login2').val("申　请");
+                $('#login2').attr('disabled', false);
+                alert('Error: ' + xhr.status + ' ' + xhr.statusText);
+            }
+        },
+        beforeSubmit: showRequest2,
+        success: showResponse2
+    };
+
+    function showRequest2(formData, jqForm, options) {
+        if (!checkLogin()) {
+            return false;
+        } else {
+            $('#login2').val("正在验证……");
+            $('#login2').attr('disabled', true);
+        }
+    }
+
+    function showResponse2(responseText, statusText) {
+    	var data = eval('(' + responseText + ')');
+    	console.log(data);
+    	/*console.log(data.msg);*/ 
+		switch(data.code)
+		{
+        case 0.1:
+            alert("抱歉，试用申请结束，您不在试用范围内！");
+            closeDia();
+            break;
+		case 1:
+		  	$("#floatBox",window.parent.document).css({"height":"835px","width":"99%","left":"1px","top":"75px"});
+            $(".floatContent>iframe",window.parent.document).css({"height":"800px"});
+            window.location.href = "/index.php/index/Other/paper?userid="+data.resultList.user_id+"&username="+data.resultList.name+"&proid="+data.resultList.pro_id+"&protitle="+data.resultList.pro_title+"&or_id="+data.resultList.or_id+"&p_type=1";
+		  	break;
+        case 1.1:
+            alert("该账号申请试用通过，请等待收到货后填写试用报告");
+            closeDia();
+            break;
+
+        case 1.11:
+            alert("该账号已申请过该产品，并已提交过试用报告");
+            closeDia();
+            break;
+        case 1.12:
+            /*$("#floatBox",window.parent.document).css({"height":"1033px","width":"99%","left":"1px","top":"5px"});
+            $(".floatContent>iframe",window.parent.document).css({"height":"1000px"});
+            window.location.href = "/index.php/index/Other/trialreport?userid="+data.resultList.user_id+"&username="+data.resultList.name+"&proid="+data.resultList.pro_id+"&protitle="+data.resultList.pro_title+"&p_type=2";*/
+            $("#floatBox",window.parent.document).css({"height":"835px","width":"99%","left":"1px","top":"75px"});
+            $(".floatContent>iframe",window.parent.document).css({"height":"800px"});
+            window.location.href = "/index.php/index/Other/paper?userid="+data.resultList.user_id+"&username="+data.resultList.name+"&proid="+data.resultList.pro_id+"&protitle="+data.resultList.pro_title+"&or_id="+data.resultList.or_id+"&p_type=2";
+            break;
+        case 1.2:
+            alert("该账号下该产品的申请未通过审核");
+            closeDia();
+            break;
+        case 1.3:
+            alert("该账号下该产品的申请正在审核中");
+            closeDia();
+            break;
+		case 2:  //填写个人地址页面
+		  	window.location.href = "/index.php/index/Other/addressadd?userid="+data.resultList.id+"&name="+data.resultList.name+"&telephone="+data.resultList.telephone;
+		  	break;
+		default:
+		  	alert(data.msg);
+		}
+    	/*if (data.code != 0) {
+    		window.location.href = "/index.php/index/Other/address?userid="+data.resultList.id;
+    	} else {
+    		alert(data.msg);
+    	}*/
+		/*if (result.status == 0) {
+			// 保存cookie
+			$.cookie("PCBABY_MOBILE_REG_LOGIN", $("#Jmobile").val(), {expires:14});
+			
+           	// 新号码同步注册
+            $.ajax({
+					type:"POST",
+					withCookie: true,
+					url:"//my.pcbaby.com.cn/collection/intf/moblieLoginRegister.jsp",
+					dataType:"json",
+					data:{
+						referer:parent.location.href
+					},
+					success: function (resultData) {
+	                // 刷新页面
+					parent.location = result.returnUrl;
+	    			return;
+	            },
+	            error:function(err){
+	            	console.log(err);
+	            	alert("登录异常，请联系管理员!");
+				}
+			});
+           	
+		} else if (result.status == 2 || result.status == 43 || result.status == 44) {
+			// 手机验证码问题
+			errorTip($("#JphoneYzmTip"),result.message.replace('请重新输入,',''));
+		} else if(result.status == 41 || result.status == 42){
+			// 手机号码问题
+			errorTip($("#JmobileTip"),result.message);
+		}else{
+			errorTip($("#JphoneYzmTip"),result.message);
+		}
+		
+		// 还原登录样式
+		if (result.status != 0) {
+    		$('#login2').val("登　录");
+            $('#login2').attr('disabled', false);
+		}*/
+    }
+    //检查是否为空
+    function checkEmpty(str) {
+        if (/^\s*$/.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    //检查手机号码
+    function checkMobile(str) {
+        if (/^1(3|4|5|7|8)\d{9}$/.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //检查图片验证码是否字母或文字
+    function checkYzm(str) {
+        if (/^[a-zA-Z0-9]{5}$/.test(str)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //倒计时
+    function countDown(time, obj) {
+        var sum = time / 1000;
+        var t = setInterval(function() {
+            if (sum > 0) {
+                $(obj).val((sum--)+"秒后可重新发送");
+            } else {
+                clearInterval(t);
+                $(obj).val("重新获取验证码");
+                $(obj).attr("disabled", false).removeClass('sending');
+                checkPhoneYzm();
+            }
+        }, 1000);
+    }
+    //更换图片验证码
+    function changeYzm(obj) {
+        $(obj).attr("src", '//captcha.pcbaby.com.cn/captcha/v.jpg?' + new Date().getTime());
+    }
+    //错误信息函数提示 
+    function errorTip(obj, str) {
+        $(obj).css("visibility", "visible");
+        $(obj).html(str);
+    }
+    //Jmobile focus后样式处理
+    $("#Jmobile").focus(function() {
+            if ($(this).val() == "请输入手机号码") {
+                $(this).val("");
+                $(this).css({
+                    "color": "#444"
+                });
+            }
+        });
+    //Jmobile 失去焦点处理
+    $("#Jmobile").blur(function() {
+        if (checkMobile($(this).val())) {
+            $("#JmobileTip").css("visibility", "hidden");
+        } else {
+            $("#JmobileTip").css("visibility", "visible");
+        }
+        /*checkPhoneYzm();*/
+    });
+
+	//username 失去焦点处理
+    $("#username").blur(function() {
+        if (checkEmpty($(this).val())) {
+            $("#JusernameTip").css("visibility", "visible");
+        } else {
+            $("#JusernameTip").css("visibility", "hidden");
+        }
+    });
+
+    //JimgYzm 失去焦点处理
+    $("#JimgYzm").blur(function() {
+            if (checkYzm($(this).val())) {
+                $("#JimgYzmTip").css("visibility", "hidden");
+            } else {
+                $("#JimgYzmTip").css("visibility", "visible");
+            }
+            checkPhoneYzm();
+        });
+        //JtxtYzm 失去焦点处理
+    $("#JtxtYzm").blur(function() {
+            if ($(this).val() != "") {
+                $("#JphoneYzmTip").css("visibility", "hidden");
+            }
+        });
+        //触发更换图片验证码
+    $("#Jyzm2").bind("click", function() {
+        changeYzm($(this));
+    });
+
+    $(".pop-btn-close").bind("click", function() {
+    	closeDia();
+       /* $("#floatBoxBg").hide();
+        $("#floatBox").hide(); */
+    });
+
+    //手机验证码前的校验
+    function checkPhoneYzm() {
+        if (checkMobile($("#Jmobile").val())) {
+            if ($("#JyzmWrap").hasClass('showYzm')) {
+                if (checkYzm($("#JimgYzm").val())) {
+                    if (!$("#JbtnGetPhoneYzm").hasClass('sending')) {
+                        $("#JbtnGetPhoneYzm").attr("disabled", false);
+                    } else {
+                        $("#JbtnGetPhoneYzm").attr("disabled", true);
+                    }
+                } else {
+                    $("#JbtnGetPhoneYzm").attr("disabled", true);
+                }
+            } else {
+                if (!$("#JbtnGetPhoneYzm").hasClass('sending')) {
+                    $("#JbtnGetPhoneYzm").attr("disabled", false);
+                }
+            }
+        } else {
+            $("#JbtnGetPhoneYzm").attr("disabled", true);
+        }
+
+    }
+
+    //获取手机验证码
+    $("#JbtnGetPhoneYzm").click(function() {
+    	if(!checkMobile($("#Jmobile").val())){
+    		return;
+    	}
+    	  if($("#isPhoneCaptcha").val() == -2){
+            if(!checkYzm($("#JimgYzm").val()))
+          	  return;
+          }
+          
+          // 屏蔽手机验证码按钮
+          $(this).attr("disabled",true);
+          $(this).addClass('sending');
+          
+          	var postData = {
+		            	mobile:$("#Jmobile").val(),
+		            	vCodeKey:'312f52efa69467fd969dff4ff407f4b7',
+		            	VCodeTime:'1531895879876',
+		            	act:"getPassword"  // 不作是否已注册的判断
+		            };
+          
+          	// 需要验证码时，追加参数
+          	if($("#isPhoneCaptcha").val() == -2){
+          		postData["captcha"]=$("#JimgYzm").val();
+          	}
+          	
+          	var _this1 = $(this);
+
+          	// 调用获取手机验证码接口
+          	$.ajax({
+		            type: "POST",
+		            withCookie: true,
+		            url: "//passport3.pcbaby.com.cn/passport3/api/sendVerificationCode2.jsp",
+		            data: postData,
+		            dataType: "JSON",
+		            success: function (resultData) {
+		            	var data = eval("("+resultData+")"); //转换为json对象 
+		            	if(data.code == 0){
+		    	    		// 设置失效时间样式
+		                    countDown(120000,_this1);
+		                    $("#JimgYzmTip").html("");
+		                    $("#JphoneYzmTip").html("");
+		                    alert("验证码已发送到您的手机");
+		    	    	} else {
+		    	    		if(data.code == -2){
+		    	    			// 显示图形验证码(同一个IP一天超过三次请求时，需要验证码)
+		    	    			$("#isPhoneCaptcha").val(-2);
+		    	                $("#JyzmWrap").show();
+		    	                $("#JyzmWrap").addClass('showYzm');
+		    	                $(this).attr("disabled",true);
+		    	                $("#JimgYzm").focus();
+		    	                $("#JimgYzmTip").css("visibility","visible");
+		    	    			$("#JimgYzmTip").html("请输入正确的图形验证码");
+		    	    		}else{
+		    	    			var _message = data.message;
+		    	    			if(_message.indexOf("页面等待时间过长") >= 0)
+		    	    				_message = "页面等待时间过长，刷新后再试";
+		    	    			else if(_message.indexOf("验证码失败") >= 0)
+		    	    				_message = "请输入正确的图形验证码";
+		    	    				
+		    	    			if($("#isPhoneCaptcha").val() == -2){
+		    	    				$("#JimgYzmTip").css("visibility","visible");
+				    	    		$("#JimgYzmTip").html(_message);
+		    	    			}else{
+		    	    				$("#JphoneYzmTip").css("visibility","visible");
+				    	    		$("#JphoneYzmTip").html(_message);
+		    	    			}
+		    	    		}
+		    	    		
+		    	    		// 刷新验证码
+	    	    			changeYzm($("#Jyzm2"));
+		    	    		// 还原手机验证码按钮
+		    	    		_this1.val("获取验证码");
+		    	    		_this1.attr("disabled",false).removeClass('sending');
+		    	    	}
+		            },
+		            error:function(err){
+		            	console.log(err);
+						alert("发送验证码失败，请与管理员联系！");
+					}
+		        });
+          
+    });
+
+    //检查是否通过校验
+    function checkLogin() {
+    	if (checkEmpty($("#username").val())) {
+    		$("#JusernameTip").css("visibility", "visible");
+            return false;
+    	}
+        if (!checkMobile($("#Jmobile").val())) {
+            $("#JmobileTip").css("visibility", "visible");
+            return false;
+        }
+        /*if ($("#JyzmWrap").hasClass('showYzm')) {
+            if (!checkYzm($("#JimgYzm").val())) {
+                $("#JimgYzmTip").css("visibility", "visible");
+                return false;
+            }
+        }
+        if ($("#JtxtYzm").val() == "") {
+            errorTip($("#JphoneYzmTip"), "手机验证码不能为空");
+            return false;
+        }*/
+        return true;
+    }
+
+    //免注册登录 E
+</script>
+</body>
+</html>

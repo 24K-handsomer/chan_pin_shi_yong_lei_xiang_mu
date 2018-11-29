@@ -1,0 +1,57 @@
+<!--header-->
+{?include file="public/_meta" /?}
+<title>地址详情</title>
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/layer/2.4/skin/layer.css" id="layui_layer_skinlayercss">
+<link href="__STATIC__/hadmin/lib/My97DatePicker/4.8/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 试用申请管理 <span class="c-gray en">&gt;</span> 申请人地址 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-hover table-sort">
+			<tbody> 
+				<tr class="text-c va-m">
+					<td>姓名</td>
+					<td class="td-manage">{?$order.name?}</td>
+				</tr>
+				<tr class="text-c va-m">
+					<td>手机</td>
+					<td class="td-manage">{?$order.telephone?}</td>
+				</tr>
+				<tr class="text-c va-m">
+					<td>身份证</td>
+					<td class="td-manage">{?$order.card?}</td>
+				</tr>
+				<tr class="text-c va-m">
+					<td>地址</td>
+					<td class="td-manage">{?$order.address?}</td>
+				</tr>
+				<tr class="text-c va-m">
+					<td>邮编</td>
+					<td class="td-manage">{?$order.zipcode?}</td>
+				</tr>
+				<tr class="text-c va-m">
+					<td>备注</td>
+					<td class="td-manage">{?$order.beizu?}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
+
+{?include file="public/_footer" /?}
+</body>
+</html>

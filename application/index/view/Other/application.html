@@ -1,0 +1,254 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单信息填写</title>
+
+<link rel="stylesheet" href="__STATIC__/shiyong/css/dk.css">
+<link href="__STATIC__/hadmin/lib/ueditor/1.4.3/themes/default/css/ueditor.css" type="text/css" rel="stylesheet">
+
+</head>
+<body marginwidth="0" marginheight="0"><div class="form">
+	<!-- <form action="">
+		<div class="clearfix mb15">
+			
+			<span class="fl" title="">
+				 <i class="lgray">请填写您的产品申请书：文字+图片的形式</i>
+			</span>
+			<span class="fr">
+				
+			</span>
+		</div>
+	              <input type="hidden" id="user_id" value="{?$data.userid?}" >
+	              <input type="hidden" id="user_name" value="{?$data.username?}" >
+	              <input type="hidden" id="pro_id" value="{?$data.proid?}" >
+	              <input type="hidden" id="pro_title" value="{?$data.protitle?}" >
+	              <input type="hidden" id="or_id" value="{?$data.or_id?}" >
+	              
+		<div class="dT">
+			<em class="red"></em>申请书要求：
+		</div>
+		<div class="dO mb15">
+			1.必须有文字描述自己的症状；2.必须有相应的图片
+		</div>
+	
+	              <div class="dT">
+	                     <em class="red">*</em>申请书内容：
+	              </div>
+	              <div class="dO mb15">
+	              </div>
+	
+	              <div class="mb15" >
+	                     <script id="editor" type="text/plain" style="width:100%;height:480px;"></script>
+	              </div>
+	
+		<div class="dO mb15">
+	                     欢迎加入亲子试用活动群：478506733
+	              </div>
+		
+	
+		
+		<div class="dBtn">
+			<input type="button" class="aBtn aBtn-Red" value="提交申请">
+			<span style="color:#f44" id="errMsg"></span>
+		</div>
+	</form> -->
+	<iframe style="width: 100%;height: 100%;border: 0px;" src="https://www.wjx.cn/jq/26745935.aspx"></iframe>
+</div>
+
+<script class=" defer" src="__STATIC__/shiyong/js/jquery-2.0.2.min.js"></script>
+
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+
+<script type="text/javascript">
+
+$(function(){
+
+    var ue = UE.getEditor('editor',{
+         //initialFrameWidth :'100%',//设置编辑器宽度
+         //initialFrameHeight:'400px',//设置编辑器高度
+         scaleEnabled:true//设置不自动调整高度
+         //scaleEnabled {Boolean} [默认值：false]//是否可以拉伸长高，(设置true开启时，自动长高失效)
+  	});
+
+  	$(".aBtn.aBtn-Red").click(function(){
+		save();
+	});
+
+	function save() {
+		if(ue.hasContents()){
+         	ue.sync();       //同步内容(内容里的图片)
+
+         	var param = {
+         		proid: $("#pro_id").val(),
+                protitle: $("#pro_title").val(),
+                userid: $("#user_id").val(),
+       			username: $("#user_name").val(),
+       			orid: $("#or_id").val(),
+       			appcontent: ue.getContent()
+         	};
+
+         	jQuery.ajax({
+       			type: "POST",
+       			url: "/index.php/Index/Ajax/applicationadd",
+       			data: param,
+       			async: false,
+       			dataType: "json",
+       			success:function(data) {
+                   	/*var jsondata = eval('(' + data + ')');*/
+                   	console.log(data);
+       				if (data.code == 1) {
+                        alert(data.msg);
+                        parent.PCDialog.hide();
+						return false;
+       				} else {
+       					$('#errMsg').html(data.msg);
+       				}
+       			}
+       		});
+		}
+	}
+	
+	function provinceChange() {
+		var parentId = $('#province option:selected').attr('value');
+		$('#city').empty();
+		$('<option value="">-请选择城市-</option>').appendTo('#city');
+		
+		$.each(citys, function (i, e) {
+			if (parentId == e.parentId) {
+				$('<option value="' + e.regionId + '">' + e.name + '</option>').appendTo('#city');
+			}
+		});
+	}
+	
+	function listAddress() {
+		parent.listAddress();
+		return false;
+	}
+	
+	function validateRegion() {
+		var pass = true;
+		if ($.trim($('#province option:selected').val()) == '') {
+			$('#regionE').html('必选');
+			pass = false;
+		} else {
+			$('#regionE').html('');
+		}
+		if ($.trim($('#city option:selected').val()) == '') {
+			$('#regionE').html('必选');
+			pass = false;
+		} else {
+			$('#regionE').html('');
+		}
+		return pass;
+	}
+	
+	function bindBlurEvent() {
+		$('#receiver').blur(function (){
+			if ($.trim($('#receiver').val()) == '') {
+				toggleMe('receiver', false, '收货人姓名为必填');
+			} else if (!(/^[a-z|A-Z|\u4e00-\u9fa5]+$/.test($.trim($('#receiver').val())))) {
+				toggleMe('receiver', false, '收货人姓名必须为英文或汉字');
+			}
+		});
+
+              $('#card').blur(function (){
+                     var card = $.trim($('#card').val());
+                     if (card == '' || !isCardNo(card)) {
+                            toggleMe('card', false, '身份证不正确');
+                     }
+              });
+		$('#telephone').blur(function (){
+			var telephone = $.trim($('#telephone').val());
+			if (telephone == '' || (!(/^1(\d){10}$/.test(telephone)) && !(/^(([0\+]\d{2,3}-)?((0\d{2,3})-)?)(\d{7,8})(-(\d{3,}))?$/.test(telephone)))) {
+				toggleMe('telephone', false, '联系方式不正确');
+			}
+		});
+		$('#addressDetail').blur(function (){
+			if ($.trim($('#addressDetail').val()) == '') {
+				toggleMe('addressDetail', false, '详细地址必填');
+			}
+		});
+		$('#zipCode').blur(function (){
+			var zipCode = $.trim($('#zipCode').val());
+			if (zipCode == '' || !(/^[0-9]{6}$/.test(zipCode))) {
+				toggleMe('zipCode', false, '邮编不正确');
+			}
+		});
+	}
+	
+	function bindFocusEvent() {
+		$('input[type=text]').focus(function (){
+			if ($(this).val() == $(this).attr('errmsg')) {
+				toggleMe($(this).attr('id'), true, '');
+			}
+		});
+	}
+	
+	function validate() {
+		var pass = true;
+		if ($.trim($('#receiver').val()) == '') {
+			toggleMe('receiver', false, '收货人姓名为必填');
+			pass = false;
+		} else if (!(/^[a-z|A-Z|\u4e00-\u9fa5]+$/.test($.trim($('#receiver').val())))) {
+			toggleMe('receiver', false, '收货人姓名必须为英文或汉字');
+			pass = false;
+		}
+
+              var card = $.trim($('#card').val());
+              if (card == '' || !isCardNo(card)) {
+                     toggleMe('card', false, '身份证不正确');
+                     pass = false;
+              }
+
+		var telephone = $.trim($('#telephone').val());
+		if (telephone == '' || (!(/^1(\d){10}$/.test(telephone)) && !(/^(([0\+]\d{2,3}-)?((0\d{2,3})-)?)(\d{7,8})(-(\d{3,}))?$/.test(telephone)))) {
+			toggleMe('telephone', false, '联系方式不正确');
+			pass = false;
+		}
+		
+		pass = validateRegion();
+		
+		if ($.trim($('#addressDetail').val()) == '') {
+			toggleMe('addressDetail', false, '详细地址必填');
+			pass = false;
+		}
+		var zipCode = $.trim($('#zipCode').val());
+		if (zipCode == '' || !(/^[0-9]{6}$/.test(zipCode))) {
+			toggleMe('zipCode', false, '邮编不正确');
+			pass = false;
+		}
+		return pass;
+	}
+	
+	function toggleMe(id, flag, errMsg) {
+		var E = $('#' + id);
+		E.val(errMsg);
+		if (flag) {
+       		E.removeClass("inp-red");
+                     E.css('color', '#333');
+		} else {
+			E.addClass("inp-red");
+	        E.css('color', '#f44');
+	        E.attr('errmsg', errMsg);
+		}
+	}
+
+
+   	function isCardNo(card) { 
+        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+        if(reg.test(card) === false) 
+        {
+            return false; 
+        }
+        else{
+            return true;
+        }
+	}
+
+})
+</script>
+</body>
+</html>

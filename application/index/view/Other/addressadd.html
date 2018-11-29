@@ -1,0 +1,365 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单信息填写</title>
+<link rel="stylesheet" href="__STATIC__/shiyong/css/dk.css">
+</head>
+<body marginwidth="0" marginheight="0"><div class="form">
+	<form action="">
+		<div class="clearfix mb15">
+			
+			<span class="fl" title="">
+				 <i class="lgray">请填写您的收货地址：{?$user_id?}</i>
+			</span>
+			<span class="fr">
+				
+			</span>
+		</div>
+              <input type="hidden" id="user_id" value="{?$user_id?}" >
+		<div class="dT">
+			<em class="red">*</em>收货人姓名：
+		</div>
+		<div class="dO mb15">
+			<input type="text" id="receiver" maxlength="20" class="inp inp-260" value="{?$name?}">
+		</div>
+
+              <div class="dT">
+                     <em class="red">*</em>身份证号码：
+              </div>
+              <div class="dO mb15">
+                     <input type="text" id="card" placeholder="仅供海关清关时使用" maxlength="18" class="inp inp-260" value="">
+              </div>
+
+		<div class="dT">
+			<em class="red">*</em>联系方式：
+		</div>
+		<div class="dO mb15">
+			<input type="text" id="telephone" maxlength="24" class="inp inp-260" value="{?$telephone?}">
+		</div>
+
+		<div class="dT">
+			<em class="red">*</em>省份：
+		</div>
+		<div class="dO clearfix mb15">
+			
+			<select name="" id="province" class="sel">
+				<option value="">-请选择省份-</option>
+				<option value="23">安徽省</option>
+			
+				<option value="146">北京市</option>
+			
+				<option value="164">福建省</option>
+			
+				<option value="258">甘肃省</option>
+			
+				<option value="359">广东省</option>
+			
+				<option value="505">广西壮族自治区</option>
+			
+				<option value="627">贵州省</option>
+			
+				<option value="721">海南省</option>
+			
+				<option value="729">河北省</option>
+			
+				<option value="907">河南省</option>
+			
+				<option value="1082">黑龙江省</option>
+			
+				<option value="1224">湖北省</option>
+			
+				<option value="1336">湖南省</option>
+			
+				<option value="1471">吉林省</option>
+			
+				<option value="1541">江苏省</option>
+			
+				<option value="1660">江西省</option>
+			
+				<option value="1766">辽宁省</option>
+			
+				<option value="1881">内蒙古自治区</option>
+			
+				<option value="1993">宁夏回族自治区</option>
+			
+				<option value="2021">青海省</option>
+			
+				<option value="2073">山东省</option>
+			
+				<option value="2229">山西省</option>
+			
+				<option value="2354">陕西省</option>
+			
+				<option value="2467">上海市</option>
+			
+				<option value="2486">四川省</option>
+			
+				<option value="2686">天津市</option>
+			
+				<option value="2702">西藏自治区</option>
+			
+				<option value="2781">新疆维吾尔自治区</option>
+			
+				<option value="2895">云南省</option>
+			
+				<option value="3038">浙江省</option>
+			
+				<option value="3139">重庆市</option>
+			</select>
+			<span class="fl sel-name1">省</span>
+			<select name="" id="city" class="sel"><option value="">-请选择城市-</option></select>
+			<span class="fl sel-name2">市</span>
+			<span id="regionE" style="color:#f44;padding-left:10px;"></span>
+			
+		</div>
+		<div class="dT">
+			<em class="red">*</em>详细地址：
+		</div>
+		<div class="dO mb15">
+			<input type="text" id="addressDetail" maxlength="225" class="inp inp-260" value="">
+		</div>
+		<div class="dT">
+			<em class="red"></em>邮编：
+		</div>
+		<div class="dO mb15">
+			<input type="text" id="zipCode" maxlength="6" class="inp inp-260" value="">
+		</div>
+
+              <div class="dT">
+                     <em class="red"></em>备注：
+              </div>
+              <div class="dO mb15">
+                     <input type="text" id="beizu" maxlength="6" class="inp inp-260" value="">
+              </div>
+		<!-- <div class="dO mb15">
+                     欢迎加入亲子试用活动群：478506733
+              </div> -->
+		
+
+		
+		<div class="dBtn">
+			<input type="button" class="aBtn aBtn-Red" onclick="save();return false;" value="提交申请">
+			<span style="color:#f44" id="errMsg"></span>
+		</div>
+	</form>
+</div>
+
+<script class=" defer" src="__STATIC__/shiyong/js/lib-jquery1.4.2.js"></script>
+
+<script type="text/javascript">
+
+	
+	var citys = $.parseJSON('[{"name":"安庆市","parentId":23,"regionId":24},{"name":"蚌埠市","parentId":23,"regionId":36},{"name":"亳州市","parentId":23,"regionId":44},{"name":"巢湖市","parentId":23,"regionId":49},{"name":"池州市","parentId":23,"regionId":55},{"name":"滁州市","parentId":23,"regionId":60},{"name":"阜阳市","parentId":23,"regionId":69},{"name":"合肥市","parentId":23,"regionId":78},{"name":"淮北市","parentId":23,"regionId":86},{"name":"淮南市","parentId":23,"regionId":91},{"name":"黄山市","parentId":23,"regionId":98},{"name":"六安市","parentId":23,"regionId":106},{"name":"马鞍山市","parentId":23,"regionId":114},{"name":"宿州市","parentId":23,"regionId":119},{"name":"铜陵市","parentId":23,"regionId":125},{"name":"芜湖市","parentId":23,"regionId":130},{"name":"宣城市","parentId":23,"regionId":138},{"name":"北京市","parentId":146,"regionId":147},{"name":"福州市","parentId":164,"regionId":165},{"name":"龙岩市","parentId":164,"regionId":179},{"name":"南平市","parentId":164,"regionId":187},{"name":"宁德市","parentId":164,"regionId":198},{"name":"莆田市","parentId":164,"regionId":208},{"name":"泉州市","parentId":164,"regionId":214},{"name":"三明市","parentId":164,"regionId":227},{"name":"厦门市","parentId":164,"regionId":239},{"name":"漳州市","parentId":164,"regionId":246},{"name":"白银市","parentId":258,"regionId":259},{"name":"定西市","parentId":258,"regionId":265},{"name":"甘南藏族自治州","parentId":258,"regionId":273},{"name":"嘉峪关市","parentId":258,"regionId":282},{"name":"金昌市","parentId":258,"regionId":284},{"name":"酒泉市","parentId":258,"regionId":287},{"name":"兰州市","parentId":258,"regionId":295},{"name":"临夏回族自治州","parentId":258,"regionId":304},{"name":"陇南地区","parentId":258,"regionId":313},{"name":"平凉市","parentId":258,"regionId":322},{"name":"庆阳市","parentId":258,"regionId":330},{"name":"天水市","parentId":258,"regionId":339},{"name":"武威市","parentId":258,"regionId":347},{"name":"张掖市","parentId":258,"regionId":352},{"name":"潮州市","parentId":359,"regionId":360},{"name":"东莞市","parentId":359,"regionId":364},{"name":"佛山市","parentId":359,"regionId":366},{"name":"广州市","parentId":359,"regionId":372},{"name":"河源市","parentId":359,"regionId":385},{"name":"惠州市","parentId":359,"regionId":392},{"name":"江门市","parentId":359,"regionId":398},{"name":"揭阳市","parentId":359,"regionId":406},{"name":"茂名市","parentId":359,"regionId":412},{"name":"梅州市","parentId":359,"regionId":419},{"name":"清远市","parentId":359,"regionId":428},{"name":"汕头市","parentId":359,"regionId":437},{"name":"汕尾市","parentId":359,"regionId":445},{"name":"韶关市","parentId":359,"regionId":450},{"name":"深圳市","parentId":359,"regionId":462},{"name":"阳江市","parentId":359,"regionId":469},{"name":"云浮市","parentId":359,"regionId":474},{"name":"湛江市","parentId":359,"regionId":480},{"name":"肇庆市","parentId":359,"regionId":490},{"name":"中山市","parentId":359,"regionId":499},{"name":"珠海市","parentId":359,"regionId":501},{"name":"百色市","parentId":505,"regionId":506},{"name":"北海市","parentId":505,"regionId":518},{"name":"崇左市","parentId":505,"regionId":523},{"name":"防城港市","parentId":505,"regionId":531},{"name":"贵港市","parentId":505,"regionId":536},{"name":"桂林市","parentId":505,"regionId":542},{"name":"河池市","parentId":505,"regionId":559},{"name":"贺州市","parentId":505,"regionId":571},{"name":"来宾市","parentId":505,"regionId":576},{"name":"柳州市","parentId":505,"regionId":583},{"name":"南宁市","parentId":505,"regionId":594},{"name":"钦州市","parentId":505,"regionId":607},{"name":"梧州市","parentId":505,"regionId":612},{"name":"玉林市","parentId":505,"regionId":620},{"name":"安顺市","parentId":627,"regionId":628},{"name":"毕节地区","parentId":627,"regionId":635},{"name":"贵阳市","parentId":627,"regionId":644},{"name":"六盘水市","parentId":627,"regionId":655},{"name":"黔东南苗族侗族自治州","parentId":627,"regionId":660},{"name":"黔南布依族苗族自治州","parentId":627,"regionId":676},{"name":"黔西南布依族苗族自治州","parentId":627,"regionId":688},{"name":"铜仁地区","parentId":627,"regionId":697},{"name":"遵义市","parentId":627,"regionId":707},{"name":"海口市","parentId":721,"regionId":722},{"name":"三亚市","parentId":721,"regionId":727},{"name":"保定市","parentId":729,"regionId":730},{"name":"沧州市","parentId":729,"regionId":755},{"name":"承德市","parentId":729,"regionId":771},{"name":"邯郸市","parentId":729,"regionId":783},{"name":"衡水市","parentId":729,"regionId":802},{"name":"廊坊市","parentId":729,"regionId":814},{"name":"秦皇岛市","parentId":729,"regionId":825},{"name":"石家庄市","parentId":729,"regionId":833},{"name":"唐山市","parentId":729,"regionId":856},{"name":"邢台市","parentId":729,"regionId":870},{"name":"张家口市","parentId":729,"regionId":889},{"name":"安阳市","parentId":907,"regionId":908},{"name":"鹤壁市","parentId":907,"regionId":918},{"name":"焦作市","parentId":907,"regionId":924},{"name":"开封市","parentId":907,"regionId":936},{"name":"洛阳市","parentId":907,"regionId":947},{"name":"漯河市","parentId":907,"regionId":963},{"name":"南阳市","parentId":907,"regionId":968},{"name":"平顶山市","parentId":907,"regionId":981},{"name":"濮阳市","parentId":907,"regionId":992},{"name":"三门峡市","parentId":907,"regionId":999},{"name":"商丘市","parentId":907,"regionId":1006},{"name":"新乡市","parentId":907,"regionId":1016},{"name":"信阳市","parentId":907,"regionId":1029},{"name":"许昌市","parentId":907,"regionId":1040},{"name":"郑州市","parentId":907,"regionId":1047},{"name":"周口市","parentId":907,"regionId":1060},{"name":"驻马店市","parentId":907,"regionId":1071},{"name":"大庆市","parentId":1082,"regionId":1083},{"name":"大兴安岭地区","parentId":1082,"regionId":1093},{"name":"哈尔滨市","parentId":1082,"regionId":1097},{"name":"鹤岗市","parentId":1082,"regionId":1117},{"name":"黑河市","parentId":1082,"regionId":1126},{"name":"鸡西市","parentId":1082,"regionId":1133},{"name":"佳木斯市","parentId":1082,"regionId":1143},{"name":"牡丹江市","parentId":1082,"regionId":1155},{"name":"七台河市","parentId":1082,"regionId":1166},{"name":"齐齐哈尔市","parentId":1082,"regionId":1171},{"name":"双鸭山市","parentId":1082,"regionId":1187},{"name":"绥化市","parentId":1082,"regionId":1196},{"name":"伊春市","parentId":1082,"regionId":1207},{"name":"鄂州市","parentId":1224,"regionId":1225},{"name":"恩施土家族苗族自治州","parentId":1224,"regionId":1229},{"name":"黄冈市","parentId":1224,"regionId":1238},{"name":"黄石市","parentId":1224,"regionId":1249},{"name":"荆门市","parentId":1224,"regionId":1256},{"name":"荆州市","parentId":1224,"regionId":1262},{"name":"十堰市","parentId":1224,"regionId":1271},{"name":"随州市","parentId":1224,"regionId":1280},{"name":"武汉市","parentId":1224,"regionId":1283},{"name":"咸宁市","parentId":1224,"regionId":1297},{"name":"襄樊市","parentId":1224,"regionId":1304},{"name":"孝感市","parentId":1224,"regionId":1314},{"name":"宜昌市","parentId":1224,"regionId":1322},{"name":"潜江市","parentId":1224,"regionId":3946},{"name":"长沙市","parentId":1336,"regionId":1337},{"name":"常德市","parentId":1336,"regionId":1347},{"name":"郴州市","parentId":1336,"regionId":1357},{"name":"衡阳市","parentId":1336,"regionId":1369},{"name":"怀化市","parentId":1336,"regionId":1382},{"name":"娄底市","parentId":1336,"regionId":1394},{"name":"邵阳市","parentId":1336,"regionId":1400},{"name":"湘潭市","parentId":1336,"regionId":1413},{"name":"湘西土家族苗族自治州","parentId":1336,"regionId":1419},{"name":"益阳市","parentId":1336,"regionId":1427},{"name":"永州市","parentId":1336,"regionId":1434},{"name":"岳阳市","parentId":1336,"regionId":1446},{"name":"张家界市","parentId":1336,"regionId":1456},{"name":"株洲市","parentId":1336,"regionId":1461},{"name":"白城市","parentId":1471,"regionId":1472},{"name":"白山市","parentId":1471,"regionId":1478},{"name":"长春市","parentId":1471,"regionId":1485},{"name":"吉林市","parentId":1471,"regionId":1496},{"name":"辽源市","parentId":1471,"regionId":1506},{"name":"四平市","parentId":1471,"regionId":1511},{"name":"松原市","parentId":1471,"regionId":1518},{"name":"通化市","parentId":1471,"regionId":1524},{"name":"延边朝鲜族自治州","parentId":1471,"regionId":1532},{"name":"常州市","parentId":1541,"regionId":1542},{"name":"淮安市","parentId":1541,"regionId":1550},{"name":"连云港市","parentId":1541,"regionId":1558},{"name":"南京市","parentId":1541,"regionId":1566},{"name":"南通市","parentId":1541,"regionId":1580},{"name":"苏州市","parentId":1541,"regionId":1589},{"name":"宿迁市","parentId":1541,"regionId":1601},{"name":"泰州市","parentId":1541,"regionId":1607},{"name":"无锡市","parentId":1541,"regionId":1614},{"name":"徐州市","parentId":1541,"regionId":1623},{"name":"盐城市","parentId":1541,"regionId":1635},{"name":"扬州市","parentId":1541,"regionId":1645},{"name":"镇江市","parentId":1541,"regionId":1653},{"name":"抚州市","parentId":1660,"regionId":1661},{"name":"赣州市","parentId":1660,"regionId":1672},{"name":"吉安市","parentId":1660,"regionId":1690},{"name":"景德镇市","parentId":1660,"regionId":1703},{"name":"九江市","parentId":1660,"regionId":1708},{"name":"南昌市","parentId":1660,"regionId":1720},{"name":"萍乡市","parentId":1660,"regionId":1730},{"name":"上饶市","parentId":1660,"regionId":1736},{"name":"新余市","parentId":1660,"regionId":1748},{"name":"宜春市","parentId":1660,"regionId":1751},{"name":"鹰潭市","parentId":1660,"regionId":1762},{"name":"鞍山市","parentId":1766,"regionId":1767},{"name":"本溪市","parentId":1766,"regionId":1775},{"name":"朝阳市","parentId":1766,"regionId":1782},{"name":"大连市","parentId":1766,"regionId":1790},{"name":"丹东市","parentId":1766,"regionId":1801},{"name":"抚顺市","parentId":1766,"regionId":1808},{"name":"阜新市","parentId":1766,"regionId":1816},{"name":"葫芦岛市","parentId":1766,"regionId":1824},{"name":"锦州市","parentId":1766,"regionId":1831},{"name":"辽阳市","parentId":1766,"regionId":1839},{"name":"盘锦市","parentId":1766,"regionId":1847},{"name":"沈阳市","parentId":1766,"regionId":1852},{"name":"铁岭市","parentId":1766,"regionId":1866},{"name":"营口市","parentId":1766,"regionId":1874},{"name":"阿拉善盟","parentId":1881,"regionId":1882},{"name":"巴彦淖尔市","parentId":1881,"regionId":1886},{"name":"包头市","parentId":1881,"regionId":1894},{"name":"赤峰市","parentId":1881,"regionId":1904},{"name":"鄂尔多斯市","parentId":1881,"regionId":1916},{"name":"呼和浩特市","parentId":1881,"regionId":1925},{"name":"呼伦贝尔市","parentId":1881,"regionId":1935},{"name":"通辽市","parentId":1881,"regionId":1949},{"name":"乌海市","parentId":1881,"regionId":1958},{"name":"乌兰察布市","parentId":1881,"regionId":1962},{"name":"锡林郭勒盟","parentId":1881,"regionId":1974},{"name":"兴安盟","parentId":1881,"regionId":1986},{"name":"固原市","parentId":1993,"regionId":1994},{"name":"石嘴山市","parentId":1993,"regionId":2000},{"name":"吴忠市","parentId":1993,"regionId":2004},{"name":"银川市","parentId":1993,"regionId":2010},{"name":"中卫市","parentId":1993,"regionId":2017},{"name":"果洛藏族自治州","parentId":2021,"regionId":2022},{"name":"海北藏族自治州","parentId":2021,"regionId":2029},{"name":"海东地区","parentId":2021,"regionId":2034},{"name":"海南藏族自治州","parentId":2021,"regionId":2041},{"name":"海西蒙古族藏族自治州","parentId":2021,"regionId":2047},{"name":"黄南藏族自治州","parentId":2021,"regionId":2053},{"name":"西宁市","parentId":2021,"regionId":2058},{"name":"玉树藏族自治州","parentId":2021,"regionId":2066},{"name":"滨州市","parentId":2073,"regionId":2074},{"name":"德州市","parentId":2073,"regionId":2082},{"name":"东营市","parentId":2073,"regionId":2094},{"name":"菏泽市","parentId":2073,"regionId":2100},{"name":"济南市","parentId":2073,"regionId":2110},{"name":"济宁市","parentId":2073,"regionId":2121},{"name":"莱芜市","parentId":2073,"regionId":2133},{"name":"聊城市","parentId":2073,"regionId":2136},{"name":"临沂市","parentId":2073,"regionId":2145},{"name":"青岛市","parentId":2073,"regionId":2158},{"name":"日照市","parentId":2073,"regionId":2171},{"name":"泰安市","parentId":2073,"regionId":2175},{"name":"威海市","parentId":2073,"regionId":2182},{"name":"潍坊市","parentId":2073,"regionId":2187},{"name":"烟台市","parentId":2073,"regionId":2200},{"name":"枣庄市","parentId":2073,"regionId":2213},{"name":"淄博市","parentId":2073,"regionId":2220},{"name":"长治市","parentId":2229,"regionId":2230},{"name":"大同市","parentId":2229,"regionId":2243},{"name":"晋城市","parentId":2229,"regionId":2255},{"name":"晋中市","parentId":2229,"regionId":2262},{"name":"临汾市","parentId":2229,"regionId":2274},{"name":"吕梁市","parentId":2229,"regionId":2291},{"name":"朔州市","parentId":2229,"regionId":2304},{"name":"太原市","parentId":2229,"regionId":2311},{"name":"忻州市","parentId":2229,"regionId":2321},{"name":"阳泉市","parentId":2229,"regionId":2335},{"name":"运城市","parentId":2229,"regionId":2341},{"name":"安康市","parentId":2354,"regionId":2355},{"name":"宝鸡市","parentId":2354,"regionId":2366},{"name":"汉中市","parentId":2354,"regionId":2378},{"name":"商洛市","parentId":2354,"regionId":2389},{"name":"铜川市","parentId":2354,"regionId":2397},{"name":"渭南市","parentId":2354,"regionId":2402},{"name":"西安市","parentId":2354,"regionId":2414},{"name":"咸阳市","parentId":2354,"regionId":2428},{"name":"延安市","parentId":2354,"regionId":2442},{"name":"榆林市","parentId":2354,"regionId":2455},{"name":"上海市","parentId":2467,"regionId":2468},{"name":"阿坝藏族羌族自治州","parentId":2486,"regionId":2487},{"name":"巴中市","parentId":2486,"regionId":2500},{"name":"成都市","parentId":2486,"regionId":2505},{"name":"达州市","parentId":2486,"regionId":2525},{"name":"德阳市","parentId":2486,"regionId":2533},{"name":"甘孜藏族自治州","parentId":2486,"regionId":2540},{"name":"广安市","parentId":2486,"regionId":2558},{"name":"广元市","parentId":2486,"regionId":2564},{"name":"乐山市","parentId":2486,"regionId":2572},{"name":"凉山彝族自治州","parentId":2486,"regionId":2584},{"name":"泸州市","parentId":2486,"regionId":2601},{"name":"眉山市","parentId":2486,"regionId":2609},{"name":"绵阳市","parentId":2486,"regionId":2616},{"name":"内江市","parentId":2486,"regionId":2626},{"name":"南充市","parentId":2486,"regionId":2632},{"name":"攀枝花市","parentId":2486,"regionId":2642},{"name":"遂宁市","parentId":2486,"regionId":2648},{"name":"雅安市","parentId":2486,"regionId":2654},{"name":"宜宾市","parentId":2486,"regionId":2663},{"name":"资阳市","parentId":2486,"regionId":2674},{"name":"自贡市","parentId":2486,"regionId":2679},{"name":"天津市","parentId":2686,"regionId":2687},{"name":"阿里地区","parentId":2702,"regionId":2703},{"name":"昌都地区","parentId":2702,"regionId":2711},{"name":"拉萨地区","parentId":2702,"regionId":2723},{"name":"林芝地区","parentId":2702,"regionId":2732},{"name":"那曲地区","parentId":2702,"regionId":2740},{"name":"日喀则地区","parentId":2702,"regionId":2750},{"name":"山南地区","parentId":2702,"regionId":2768},{"name":"阿克苏地区","parentId":2781,"regionId":2782},{"name":"阿勒泰地区","parentId":2781,"regionId":2793},{"name":"巴音郭楞蒙古自治州","parentId":2781,"regionId":2801},{"name":"博尔塔拉蒙古自治州","parentId":2781,"regionId":2811},{"name":"昌吉回族自治州","parentId":2781,"regionId":2815},{"name":"哈密地区","parentId":2781,"regionId":2825},{"name":"和田地区","parentId":2781,"regionId":2829},{"name":"喀什地区","parentId":2781,"regionId":2838},{"name":"克拉玛依市","parentId":2781,"regionId":2851},{"name":"克孜勒苏柯尔克孜自治州","parentId":2781,"regionId":2856},{"name":"石河子市","parentId":2781,"regionId":2861},{"name":"塔城地区","parentId":2781,"regionId":2863},{"name":"吐鲁番地区","parentId":2781,"regionId":2871},{"name":"乌鲁木齐市","parentId":2781,"regionId":2875},{"name":"伊犁哈萨克自治州","parentId":2781,"regionId":2884},{"name":"保山市","parentId":2895,"regionId":2896},{"name":"楚雄彝族自治州","parentId":2895,"regionId":2902},{"name":"大理白族自治州","parentId":2895,"regionId":2913},{"name":"德宏傣族景颇族自治州","parentId":2895,"regionId":2925},{"name":"迪庆藏族自治州","parentId":2895,"regionId":2931},{"name":"红河哈尼族彝族自治州","parentId":2895,"regionId":2935},{"name":"昆明市","parentId":2895,"regionId":2948},{"name":"丽江市","parentId":2895,"regionId":2963},{"name":"临沧市","parentId":2895,"regionId":2969},{"name":"怒江傈僳族自治州","parentId":2895,"regionId":2978},{"name":"曲靖市","parentId":2895,"regionId":2983},{"name":"思茅市","parentId":2895,"regionId":2993},{"name":"文山壮族苗族自治州","parentId":2895,"regionId":3004},{"name":"西双版纳傣族自治州","parentId":2895,"regionId":3013},{"name":"玉溪市","parentId":2895,"regionId":3017},{"name":"昭通市","parentId":2895,"regionId":3027},{"name":"杭州市","parentId":3038,"regionId":3039},{"name":"湖州市","parentId":3038,"regionId":3052},{"name":"嘉兴市","parentId":3038,"regionId":3058},{"name":"金华市","parentId":3038,"regionId":3066},{"name":"丽水市","parentId":3038,"regionId":3076},{"name":"宁波市","parentId":3038,"regionId":3086},{"name":"衢州市","parentId":3038,"regionId":3098},{"name":"绍兴市","parentId":3038,"regionId":3105},{"name":"台州市","parentId":3038,"regionId":3112},{"name":"温州市","parentId":3038,"regionId":3122},{"name":"舟山市","parentId":3038,"regionId":3134},{"name":"重庆市","parentId":3139,"regionId":3140}]');
+	
+	
+	$(document).ready(function (){
+		$('#province').change(function(){
+			provinceChange();
+			setTimeout(validateRegion, 10);
+		});
+		$('#city').change(function(){
+			setTimeout(validateRegion, 10);
+		});
+		
+		var provinceId = '0';
+		var cityId = '0';
+		setTimeout(function () { 
+			$('#province').val(provinceId);
+		}, 10); 
+		setTimeout(function () { 
+			provinceChange();
+		}, 20); 
+		setTimeout(function () { 
+			$('#city').val(cityId);
+		}, 30);
+		
+		bindBlurEvent();
+		bindFocusEvent();
+	});
+
+	function isCardNo(card) { 
+		// 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+		var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+		if(reg.test(card)) 
+		{
+		    return true; 
+		}
+		else{
+		    return false;
+		}
+	}
+
+	function toggleMe(id, flag, errMsg) {
+		var E = $('#' + id);
+		E.val(errMsg);
+		if (flag) {
+       		E.removeClass("inp-red");
+            E.css('color', '#333');
+		} else {
+			E.addClass("inp-red");
+	        E.css('color', '#f44');
+	        E.attr('errmsg', errMsg);
+		}
+	}
+
+	function validate() {
+		var pass = true;
+		pass = validateRegion();
+		var receiver = $.trim($('#receiver').val());
+		if (receiver == '' || receiver == '收货人姓名为必填' || receiver == '收货人姓名必须为英文或汉字') {
+			toggleMe('receiver', false, '收货人姓名为必填');
+			pass = false;
+		} else if (!(/^[a-z|A-Z|\u4e00-\u9fa5]+$/.test(receiver))) {
+			toggleMe('receiver', false, '收货人姓名必须为英文或汉字');
+			pass = false;
+		}
+
+		var card = $.trim($('#card').val());
+		if (card == '' || !isCardNo(card)) {
+			toggleMe('card', false, '身份证不正确');
+			pass = false;
+		}
+
+		var telephone = $.trim($('#telephone').val());
+		if (telephone == '' || (!(/^1(\d){10}$/.test(telephone)) && !(/^(([0\+]\d{2,3}-)?((0\d{2,3})-)?)(\d{7,8})(-(\d{3,}))?$/.test(telephone)))) {
+			toggleMe('telephone', false, '联系方式不正确');
+			pass = false;
+		}
+		
+		var address = $.trim($('#addressDetail').val());
+		if (address == '' || address == '详细地址必填') {
+			toggleMe('addressDetail', false, '详细地址必填');
+			pass = false;
+		}
+		/*var zipCode = $.trim($('#zipCode').val());
+		if (zipCode == '' || !(/^[0-9]{6}$/.test(zipCode))) {
+			toggleMe('zipCode', false, '邮编不正确');
+			pass = false;
+		}*/
+		return pass;
+	}
+	
+	function save() {
+		var re = validate();
+		if (re) {
+			var pro_id = $.trim($("#pro_id",window.parent.document).val());
+			var pro_title = $.trim($(".iTitle",window.parent.document).text());
+			var user_id = $.trim($('#user_id').val());
+			var name = $.trim($('#receiver').val());
+
+			var zc = $.trim($('#zipCode').val()) ? $.trim($('#zipCode').val()) : 0;
+			var bz = $.trim($('#beizu').val()) ? $.trim($('#beizu').val()) : 0;
+       		var param = {
+                proid: pro_id,
+                protitle: pro_title,
+                userid: user_id,
+       			receiver: name,
+                card: $.trim($('#card').val()),
+       			telephone: $.trim($('#telephone').val()),
+       			province: $.trim($('#province option:selected').text()),
+       			city: $.trim($('#city option:selected').text()),
+       			address: $.trim($('#addressDetail').val()),
+       			zipCode: zc,
+                beizu: bz
+       		};
+       		console.log(param);
+       		jQuery.ajax({
+       			type: "POST",
+       			url: "/index.php/Index/Ajax/orderadd",
+       			data: param,
+       			async: false,
+       			dataType: "json",
+       			success:function(data) {
+                   	/*var jsondata = eval('(' + data + ')');*/
+                   	console.log(data);
+       				if (data.code == 1) {
+                        $("#floatBox",window.parent.document).css({"height":"835px","width":"99%","left":"1px","top":"75px"});
+                        $(".floatContent>iframe",window.parent.document).css({"height":"800px"});
+                        window.location.href = "/index.php/index/Other/paper?userid="+data.resultList.user_id+"&username="+data.resultList.name+"&proid="+data.resultList.pro_id+"&protitle="+data.resultList.pro_title+"&or_id="+data.resultList.id;
+       				} else {
+       					$('#errMsg').html(data.msg);
+       				}
+       			}
+       		});
+        }
+	}
+	
+	function provinceChange() {
+		var parentId = $('#province option:selected').attr('value');
+		$('#city').empty();
+		$('<option value="">-请选择城市-</option>').appendTo('#city');
+		
+		$.each(citys, function (i, e) {
+			if (parentId == e.parentId) {
+				$('<option value="' + e.regionId + '">' + e.name + '</option>').appendTo('#city');
+			}
+		});
+	}
+	
+	function listAddress() {
+		parent.listAddress();
+		return false;
+	}
+	
+	function validateRegion() {
+		var pass = true;
+		if ($.trim($('#province option:selected').val()) == '') {
+			$('#regionE').html('必选');
+			pass = false;
+		} else {
+			$('#regionE').html('');
+		}
+		if ($.trim($('#city option:selected').val()) == '') {
+			$('#regionE').html('必选');
+			pass = false;
+		} else {
+			$('#regionE').html('');
+		}
+		return pass;
+	}
+	
+	function bindBlurEvent() {
+		$('#receiver').blur(function (){
+			var receiver = $.trim($('#receiver').val());
+			if (receiver == '' || receiver == '收货人姓名为必填' || receiver == '收货人姓名必须为英文或汉字') {
+				toggleMe('receiver', false, '收货人姓名为必填');
+			} else if (!(/^[a-z|A-Z|\u4e00-\u9fa5]+$/.test(receiver))) {
+				toggleMe('receiver', false, '收货人姓名必须为英文或汉字');
+			}
+		});
+
+		$('#card').blur(function (){
+			var card = $.trim($('#card').val());
+			if (card == '' || !isCardNo(card)) {
+				toggleMe('card', false, '身份证不正确');
+			}
+		});
+		$('#telephone').blur(function (){
+			var telephone = $.trim($('#telephone').val());
+			if (telephone == '' || (!(/^1(\d){10}$/.test(telephone)) && !(/^(([0\+]\d{2,3}-)?((0\d{2,3})-)?)(\d{7,8})(-(\d{3,}))?$/.test(telephone)))) {
+				toggleMe('telephone', false, '联系方式不正确');
+			}
+		});
+		$('#addressDetail').blur(function (){
+			var address = $.trim($('#addressDetail').val());
+			if (address == '' || address == '详细地址必填') {
+				toggleMe('addressDetail', false, '详细地址必填');
+			}
+		});
+		
+	}
+	
+	function bindFocusEvent() {
+		$('input[type=text]').focus(function (){
+			if ($(this).val() == $(this).attr('errmsg')) {
+				toggleMe($(this).attr('id'), true, '');
+			}
+		});
+	}
+	
+	
+	
+	
+</script>
+</body>
+</html>

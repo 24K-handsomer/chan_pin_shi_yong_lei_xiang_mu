@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Leail测评 打造零触优质产品体验</title>
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/style.css">
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/try.css">	
+</head>
+<body>
+<!--头部-->
+{?include file="Public/head" /?}
+<!-- position S -->
+<div class="position main">
+<em class="arr"></em><a href="/">PCbaby首页</a>&nbsp;/&nbsp;<i>往期回顾</i>
+</div>
+<!-- position E -->
+
+<!-- reviewList S -->
+<div class="main mb10">
+	<div class="dReviewList border shadow">
+	<div class="tabList-th" id="JtabList01">
+		<ul class="tabList-th-ul">
+			{?if condition="$catid eq 0"?}
+				<li class="tabList-th-li1"><a href="{?:url('index/trialend')?}" class="current" >全部<em></em></a></li>
+			{?else /?}
+				<li class="tabList-th-li1"><a href="{?:url('index/trialend')?}" class="" >全部<em></em></a></li>
+			{?/if?}
+			{?foreach? name="catlist" item="data"?}
+				{?if condition="$data.id eq $catid"?}
+					<li class="tabList-th-li1"><a href="{?:url('index/trialend')?}?cat={?$data.id?}" class="current" >{?$data.name?}<em></em></a></li>
+				{?else /?}
+					<li class="tabList-th-li1"><a href="{?:url('index/trialend')?}?cat={?$data.id?}" class="" >{?$data.name?}<em></em></a></li>
+				{?/if?}
+			{?/foreach?}
+		</ul>
+	</div>
+	<ul class="reviewList">
+		
+		{?foreach? name="prolist" item="data"?}
+		<li>
+			<a href="{?:url('Product/index')?}?pro_id={?$data.pro_id?}" class="fl" >
+				<img src="{?$data.pro_thumbnail?}" width="525" height="351" alt="{?$data.pro_title?}">
+			</a>
+			<div class="oh">
+				<i class="iTitle"><a href="{?:url('Product/index')?}?pro_id={?$data.pro_id?}" class="fl" >{?$data.pro_title?}</a></i>
+				<i class="iTime">活动时间：{?$data.start_time?}到{?$data.end_time?}</i>
+				<dl class="dlList clearfix">
+					<dd>
+						<span class="sT fl">综合评分：</span><span class="sI">
+							<span class="rating">
+								<span class="rating-inner tenPoint"></span>
+							</span>
+						</span>
+					</dd>
+					
+					<dd>
+						<span class="sT">试用数量：</span><span class="sI"><em class="red">{?$data.trial_number?}</em>份</span>
+					</dd>
+					<dd>
+						<span class="sT">商品价格：</span><span class="sI"><em class="red">{?$data.pro_price?}<span style="color:#999;">元/份</span></em></span>
+					</dd>
+					<dd>
+						<span class="sT">申请人数：</span><span class="sI"><em class="red">{?$data.pro_applications?}</em>人</span>
+					</dd>
+				</dl>
+				<dl class="dlReport">
+                                    
+					<dt>精华试用报告</dt>
+					
+					{?foreach? name="relist" item="vo"?}
+						{?foreach? name="vo" item="vk"?}
+							{?if condition ="$vk.pro_id eq $data.pro_id"?}
+								<dd>
+									<i class="iAutor"><a>{?$vk.use_name?}</a></i>
+									<a href="{?:url('Product/reportshow')?}?re_id={?$vk.re_id?}" >{?$vk.re_title?}</a>
+								</dd>
+							{?/if?}
+						{?/foreach?}
+					{?/foreach?}
+					
+				</dl>
+				<i>
+					<a href="{?:url('Product/reportlist')?}?pro_id={?$data.pro_id?}" class="aBtn aBtnRed aBtnBig">查看所有报告</a>
+				</i>
+			</div>
+		</li>
+		{?/foreach?}
+		
+	</ul>
+	</div>
+	<!-- pcbaby_page S -->
+	<div class="pcbaby_page">
+		{?$show?}
+	</div>
+
+	<!-- pcbaby_page E -->
+</div>
+<!-- 底部资质 -->
+<div class="footer">
+	<p>未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。</p>
+	<p><a href="#">网站备案号：鲁ICP备17015192号-2</a></p>
+	<p><a href="#"><img src="__STATIC__/shiyong/images/ft-ghs.png"/>鲁公网安备 44010602000158号</a></p>
+</div>
+{?include file="Public/foot" /?}
+</body>
+</html>

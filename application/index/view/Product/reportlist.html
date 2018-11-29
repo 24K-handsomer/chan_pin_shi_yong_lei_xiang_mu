@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Leail测评 打造零触优质产品体验</title>
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/style.css">
+	<!--[if IE 6]><script>document.execCommand("BackgroundImageCache", false, true)</script><![endif]-->
+</head>
+<body>
+{?include file="Public/head" /?}
+
+<!--进度-->
+<div class="main step">
+	<ul>
+		<li class="{?$prolist.status==1?'current':''?}">
+			<em class="line"></em>
+			<em class="num">01</em>
+			<em class="title">即将开始</em>
+		</li>
+		<li class="{?$prolist.status==2?'current':''?}">
+			<em class="line"></em>
+			<em class="num">02</em>
+			<em class="title">申请试用</em>
+		</li>
+		<li class="{?$prolist.status==3?'current':''?}">
+			<em class="line"></em>
+			<em class="num">03</em>
+			<em class="title">提交报告</em>
+		</li>
+		<li class="{?$prolist.status==4?'current':''?}">
+			<em class="line"></em>
+			<em class="num">04</em>
+			<em class="title">试用结束</em>
+		</li>
+	</ul>
+</div>
+<!--产品介绍-->
+<div class="main border shadow mb30">
+	<div class="proInfo">
+	<div class="fl"><img src="{?$prolist.pro_thumbnail?}" width="540" height="360" alt="{?$prolist.pro_title?}"></div>
+	<div class="oh">
+		<i class="iTitle">{?$prolist.pro_title?}</i>
+		<i class="iTime lgray">活动时间：{?$prolist.start_time?}到{?$prolist.end_time?}</i>
+		<div class="info">
+			<p>
+				<span class="sT">商品名称：</span>
+				<span class="sI"><a href="{?:url('Product/index')?}?pro_id={?$prolist.pro_id?}">{?$prolist.pro_title?}</a></span>
+			</p>
+			<p><span class="sT">试用数量：</span><span class="sI"><em class="red">{?$prolist.trial_number?}</em>份</span></p>
+			<p><span class="sT">申请人数：</span><span class="sI"><em class="red">{?$prolist.pro_applications?}</em>人</span></p>
+			<p><span class="sT">商品价值：</span><span class="sI"><em class="red">{?$prolist.pro_price?}<span style="color:#999;">元/份</span></em></span></p>
+		</div>
+		<i class="iBtn"><a href="javascript:;" class="nope">已结束</a></i>
+	</div>
+	</div>
+</div>
+<!--网友评论-->
+<div class="main  reportList">
+	<ul class="reportList-ul border shadow">
+
+		{?volist name="reportlist" id="vo"?}
+		<li class="clearfix">
+			<div class="side fl">
+                
+				<div class="side-avatar">
+					<a href="#" >
+						<!-- <span class="side-avatar-cover"></span>
+						<img src="images/tou04.jpg" width="120" height="120" alt="wuyunxia"> -->
+						<span class="username">{?$vo.use_name?}</span>
+					</a>
+				</div>				
+			</div>
+			<div class="fr main-content">
+				<div class="fl pic">
+					<a href="{?:url('Product/reportshow')?}?re_id={?$vo.re_id?}" >
+						<span>
+							<img src="{?$vo.re_thumbnail?}" width="300" height="" class="hidden">
+							<img src="{?$vo.re_thumbnail?}" width="300" height="">
+						</span>
+					</a>
+				</div>
+				<div class="oh">
+					<h3><a href="{?:url('Product/reportshow')?}?re_id={?$vo.re_id?}" >{?$vo.re_title?}</a></h3>
+					<p class="art-des">
+					{?php?}
+						$str = strip_tags($vo['re_content']);
+						echo mb_substr($str, 0, 120, 'utf-8');
+					{?/php?}
+					......</p>
+					<a href="{?:url('Product/reportshow')?}?re_id={?$vo.re_id?}"  class="aMore">查看详细</a>
+					<div class="clearfix divRating">
+					</div>
+				</div>
+			</div>
+		</li>
+		{?/volist?}
+		
+	</ul>
+	<div class="pcbaby_page">
+		{?$show?}
+	</div>
+</div>
+<!-- footer -->
+<div class="footer">
+	<p>未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。</p>
+	<p><a href="#">网站备案号：鲁ICP备17015192号-2</a></p>
+	<p><a href="#"><img src="__STATIC__/shiyong/images/ft-ghs.png"/>鲁公网安备 44010602000158号</a></p>
+</div>
+</body>
+</html>

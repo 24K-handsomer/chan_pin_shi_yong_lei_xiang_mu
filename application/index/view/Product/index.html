@@ -1,0 +1,392 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{?$prolist.pro_title?}_Leail测评 打造零触优质产品体验</title>
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/style.css">	
+	<!--[if IE 6]><script>document.execCommand("BackgroundImageCache", false, true)</script><![endif]-->
+	<style type="text/css">
+		.pro_introduction img{
+			display: block;
+		    margin: auto;
+		    max-width: 100%;
+		    height: auto;
+		}
+		.ceng{
+			position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    background: #333333;
+		    opacity: 0.6;
+		}
+		.fix{
+			position: fixed;
+		    /* background: #ffffff; */
+		    top: 10%;
+		    left: 0;
+		    width: 100%;
+		}
+		.fix-one{
+			margin: auto;
+		    background: #ffffff;
+		    padding: 10px;
+		    margin-left: 8%;
+		    margin-right: 8%;
+		}
+		.lBox-one{text-align: center;}
+		.lBox-one button{margin-right:10px;background:#ff4444;color: white;border: none;border-radius: 5px;padding:2px 10px;cursor:pointer;}
+		.lBox-one button:hover{background: red;}
+	</style>
+</head>
+<body>
+<!--头部-->
+{?include file="Public/head" /?}
+
+<!--进度-->
+<div class="main step">
+	<ul>
+
+		<li class="{?$prolist.status==1?'current':''?}">
+			<em class="line"></em>
+			<em class="num">01</em>
+			<em class="title">即将开始</em>
+		</li>
+		<li class="{?$prolist.status==2?'current':''?}">
+			<em class="line"></em>
+			<em class="num">02</em>
+			<em class="title">申请试用</em>
+		</li>
+		<li class="{?$prolist.status==3?'current':''?}">
+			<em class="line"></em>
+			<em class="num">03</em>
+			<em class="title">名单公示</em> 
+		</li>
+		<li class="{?$prolist.status==4?'current':''?}">
+			<em class="line"></em>
+			<em class="num">04</em>
+			<em class="title">提交报告</em>
+		</li>
+		<li class="{?$prolist.status==5?'current':''?}">
+			<em class="line"></em>
+			<em class="num">05</em>
+			<em class="title">试用结束</em>
+		</li>
+	</ul>
+</div>
+<!--产品介绍-->
+<div class="main border shadow mb30">
+	<div class="proInfo">
+	<div class="fl"><img src="{?$prolist.pro_thumbnail?}" width="540" height="360" alt="{?$prolist.pro_title?}"></div>
+	<div class="oh">
+		<i class="iTitle"><a href="{?:url('Product/index')?}?pro_id={?$prolist.pro_id?}">{?$prolist.pro_title?}</a></i>
+		<i class="iTime lgray">活动时间：{?$prolist.start_time?}到{?$prolist.end_time?}</i>
+		<div class="info">
+			<input type="hidden" id="pro_id" value="{?$prolist.pro_id?}" name="">
+			<p>
+				<span class="sT">商品名称：</span>
+				<span class="sI"><a href="{?:url('Product/index')?}?pro_id={?$prolist.pro_id?}">{?$prolist.pro_title?}</a></span>
+			</p>
+			<p><span class="sT">试用数量：</span><span class="sI"><em class="red">{?$prolist.trial_number?}</em>份</span></p>
+			<p><span class="sT">申请人数：</span><span class="sI"><em class="red">{?$prolist.pro_applications?}</em>人</span></p>
+			<p><span class="sT">商品价值：</span><span class="sI"><em class="red">{?$prolist.pro_price?}<span style="color:#999;">元/份</span></em></span></p>
+		</div>
+		<input type="hidden" id="pro_status" value="{?$prolist.status?}">
+		{?switch name="$prolist.status"?}
+			{?case value="1"?}<i class="iBtn"><a class="nope" style="border: 1px solid #f44;" href="javascript:;">即将开始</a></i>{?/case?}
+			{?case value="2"?}<i class="iBtn"><a href="javascript:;" onClick="showadvice()">我要申请</a></i>{?/case?}
+			{?case value="3"?}<i class="iBtn"><a href="javascript:;" onClick="showmingdan({?$prolist.pro_id?})">名单公示</a></i>{?/case?}
+			{?case value="4"?}<i class="iBtn"><a href="javascript:;" onClick="showadvice()">提交报告</a></i>{?/case?}
+			{?default /?}<i class="iBtn"><a class="nope" href="javascript:;">已结束</a></i>
+		{?/switch?}
+		
+	</div>
+	</div>
+</div>
+<!-- proInfo E -->
+<!-- intro S -->
+<div class="ceng" style="display: none;"></div>
+
+<div class="fix" style="display: none;">
+	<div class="fix-one">
+		<div class="lBox">
+			<div class="lBox-th">
+				<h3 class="mark">活动规则</h3>
+			</div>
+			<div class="lBox-tb">
+				<dl>
+					<dd>
+						{?$prolist.activity_rules?}
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="lBox">
+			<div class="lBox-th">
+				<h3 class="mark">产品介绍</h3>
+			</div>
+			<div class="lBox-tb intro-tb">
+				<h3 class="red">获得试用要求：</h3>
+				<div>{?$prolist.trial_requirements?}</div>
+				
+			</div>
+			<div class="lBox-tb intro-tb">
+				<h3 class="red">试用报告内容需包括：</h3>
+				<div>{?$prolist.report_content?}</div>
+			</div>
+			<div class="lBox-tb intro-tb">
+				<h3 class="red">活动时间流程：</h3>
+				<div>{?$prolist.activity_time?}</div>
+			</div>
+		</div>
+
+		<div class="lBox">
+			<div class="lBox-one">
+				<button class="agree" onClick="agree()">同意</button>
+				<button class="display" onClick="disagree()">不同意</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="main border shadow mb30 intro">
+	<div class="lBox">
+		<div class="lBox-th">
+			<h3 class="mark">活动规则</h3>
+			<span class="submark toggle">
+				<i>收起</i><em class="triangle"></em>
+			</span>
+		</div>
+		<div class="lBox-tb">
+			<dl>
+				<dd>
+					{?$prolist.activity_rules?}
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div> -->
+<div class="main border shadow mb30 intro">
+	<div class="lBox">
+		<!-- <div class="lBox-th">
+			<h3 class="mark">产品介绍</h3>
+			<span class="submark toggle">
+				<i>收起</i><em class="triangle"></em>
+			</span>
+		</div>
+		<div class="lBox-tb intro-tb">
+			<h3 class="red">获得试用要求：</h3>
+			<div>{?$prolist.trial_requirements?}</div>
+			
+		</div>
+		<div class="lBox-tb intro-tb">
+			<h3 class="red">试用报告内容需包括：</h3>
+			<div>{?$prolist.report_content?}</div>
+		</div>
+		<div class="lBox-tb intro-tb">
+			<h3 class="red">活动时间流程：</h3>
+			<div>{?$prolist.activity_time?}</div>
+		</div> -->
+		<div class="lBox-tb intro-tb">
+			<h3 class="red">产品介绍：</h3>
+			<div class="pro_introduction">{?$prolist.pro_introduction?}</div>
+		</div>
+	</div>
+</div>
+<div class="footer">
+	<p>未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。</p>
+	<p><a href="#">网站备案号：鲁ICP备17015192号-2</a></p>
+	<p><a href="#"><img src="__STATIC__/shiyong/images/ft-ghs.png"/>鲁公网安备 44010602000158号</a></p>
+</div>
+<script class=" defer" src="__STATIC__/shiyong/js/lib-jquery1.4.2.js"></script>
+<script src="__STATIC__/shiyong/js/dpl-dialog_v1.js"></script>
+<script>
+$(".toggle").each(function(i){
+	$(".toggle").eq(i).bind("click", function(){
+		var self = $(this);
+		if (self.hasClass("off")) {
+			self.removeClass("off");
+			$("i", self).html("收起");
+			$(".lBox-tb", self.parent().parent(".lBox")).slideDown();
+		} else {
+			self.addClass("off");
+			$("i", self).html("展开");
+			$(".lBox-tb", self.parent().parent(".lBox")).slideUp();
+		}
+	})
+})
+</script>
+<script type="text/javascript">
+var heights = ['435', '170', '170', '320', '320', '215'];
+
+$(document).ready(function() {
+	
+});
+
+/*
+function tryApply() {
+
+	showlog();
+	var param = {
+		action: 'type',
+		tryoutId: '4423'
+	};
+	
+	jQuery.ajax({
+		type: "POST",
+		url: "Index/Ajax/tryApply",
+		data: param,
+		async: false,
+		dataType: "json",
+		success:function(data, textStatus) {
+			if (data.rtnCode == 200) {
+				if (data.type == 0 || data.type == 1 || data.type == 2) {
+					showDlg(data.type);
+				} else if (data.type == 3) {
+					editAddress(3);
+				} else if (data.type == 4) {
+					listAddress();
+				} else if (data.type == 5) {
+					PCDialog.open('提示信息','iframe://try.pcbaby.com.cn/common/tips_confirm_dlg.jsp?tips=尊敬的用户您好，没有育儿信息的用户不能申请试用!', '422', '180');
+				}
+			}  else {
+				PCDialog.open('提示信息','iframe://try.pcbaby.com.cn/common/tips_confirm_dlg.jsp?tips=网络有问题,请稍后再试!', '422', '180');
+			}
+		}
+	});
+}
+
+var addressId = '', wantToBeMemberOfPampers = '';
+function apply() {
+	var brandId = 3832;
+	var param = {
+		action: 'apply',
+		tryoutId: '4423',
+		addressId: addressId,
+		wantToBeMemberOfPampers: wantToBeMemberOfPampers
+	};
+	
+	jQuery.ajax({
+		type: "POST",
+		url: "//try.pcbaby.com.cn/action/tryout_apply.jsp",
+		data: param,
+		async: false,
+		dataType: "json",
+		success:function(data, textStatus) {
+			if (data.rtnCode == 200) {
+				showSuccessDlg();
+				if((brandId == 3079 || brandId == 3832) && data.isExistMem == false){
+					showMedsonViP();
+				}
+			} else {
+				PCDialog.open('提示信息','iframe://try.pcbaby.com.cn/common/tips_confirm_dlg.jsp?tips=' + data.rtnMsg, '422', '165');
+			}
+		} 
+	});
+}
+*/
+
+function showlog(){
+	var pro_id = $("#pro_id").val();
+	var pro_title = $(".iTitle").text();
+	var pro_status = $("#pro_status").val();
+	PCDialog.open('免费申请试用','iframe:/Index/Other/showlog?pro_id='+pro_id+'&pro_title='+pro_title+'&pro_status='+pro_status, '462', '480');
+}
+
+function showadvice(){
+	$('.ceng').fadeIn('');
+	$('.fix').fadeIn('slow');
+}
+function agree(){
+	$('.ceng').fadeOut();
+	$('.fix').fadeOut();
+	showlog();
+}
+function disagree(){
+	$('.ceng').fadeOut();
+	$('.fix').fadeOut();
+}
+
+function showMedsonViP(){
+	$(".mzc_popbg,.mzc_pop").show();
+}
+
+function showmingdan(proid){
+	PCDialog.open('名单公示','iframe:/Index/Other/showmingdan?pro_id='+proid,'768','700'); 
+}
+
+/*
+function editAddress(type) {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/address_fillout_dlg.jsp?type=' + type + '&tryoutId=4423', '462', '480');
+}
+
+function listAddress() {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/address_list_dlg.jsp?tryoutId=4423', '422', '160');
+	noScroll();
+}
+*/
+/*
+function ajustSize() {
+	var surveyDlg = $('#floatBox iframe');
+	var height = surveyDlg.contents().find("div.form").height() + 30;
+	surveyDlg.attr('height', '' + height);
+	$('#floatBox').height(height + 30);
+	
+	jQuery('#floatBox').css('left',((jQuery(document.body).width())/2-(parseInt(jQuery('#floatBox').width())/2))+'px');
+	jQuery('#floatBox').css('top',($(document).scrollTop() + 30) + 'px');
+}
+function ajustSize2() {
+	var addressListDlg = $('#floatBox iframe');
+	var height = addressListDlg.contents().find("div.form").height() + 50;
+	addressListDlg.attr('height', '' + height);
+	$('#floatBox').height(height + 10);
+	
+	jQuery('#floatBox').css('left',((jQuery(document.body).width())/2-(parseInt(jQuery('#floatBox').width())/2))+'px');
+	jQuery('#floatBox').css('top',((window.screen.height/2-(parseInt(jQuery('#floatBox').height())/2)) + $(document).scrollTop() - 40) + 'px');
+}
+
+function showDlg(type) {
+	var curUrl = window.location.href;
+	curUrl = curUrl.indexOf('isReturn') < 0 ? (curUrl + '?isReturn=1') : curUrl;
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/terminal_confirm_dlg.jsp?tryoutId=' + '4423' + '&type=' + type + '&returnUrl=' + curUrl + '&now=' + (new Date()).getTime(), '422',  type < 0 ? '180' : heights[type]);
+	// 隐藏弹窗标题行
+	if(type == 0)
+		$("div .floatTitle").hide();
+}
+
+function showSuccessDlg() {
+	$('.iBtn a').attr('class', 'nope');
+	$('.iBtn a').html('已提交申请');
+	$('.iBtn a').removeAttr('onclick');
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/terminal_confirm_dlg.jsp?tryoutId=' + '4423' + '&type=3', '422', heights[3]);
+}
+
+function showApplyNotPassDlg() {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/terminal_confirm_dlg.jsp?tryoutId=' + '4423' + '&type=4', '452', heights[4]);
+}
+
+function showModifyReportDlg(reportId) {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/terminal_confirm_dlg.jsp?reportId=' + reportId + '&tryoutId=' + '4423' + '&type=5', '422', heights[5]);
+}
+
+function showSurveyDlg() {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/survey_dlg.jsp?tryoutId=4423&addressId=' + addressId, '600', '500');
+	noScroll();
+}
+
+function noScroll() {
+	$('#floatBox iframe').attr('scrolling', 'no');
+}
+
+function redirectTo(url) {
+	window.location.href = url;
+}
+
+function showApplyNotExistDlg() {
+	PCDialog.open('免费申请试用','iframe://try.pcbaby.com.cn/common/terminal_confirm_dlg.jsp?tryoutId=' + '4423' + '&type=4&notapply=1', '452', heights[4]);
+}
+*/
+</script>
+{?include file="Public/foot" /?}
+</body>
+</html>

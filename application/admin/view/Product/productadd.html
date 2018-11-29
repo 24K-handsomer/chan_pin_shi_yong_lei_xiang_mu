@@ -1,0 +1,392 @@
+<!--header-->
+{?include file="public/_meta" /?}
+<title>添加产品</title>
+<link href="__STATIC__/hadmin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/layer/2.4/skin/layer.css" id="layui_layer_skinlayercss">
+<link href="__STATIC__/hadmin/lib/My97DatePicker/4.8/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/hadmin/lib/ueditor/1.4.3/themes/default/css/ueditor.css" type="text/css" rel="stylesheet">
+<script src="__STATIC__/hadmin/lib/ueditor/1.4.3/third-party/codemirror/codemirror.js" type="text/javascript" defer="defer"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/hadmin/lib/ueditor/1.4.3/third-party/codemirror/codemirror.css">
+<script src="__STATIC__/hadmin/lib/ueditor/1.4.3/third-party/zeroclipboard/ZeroClipboard.js" type="text/javascript" defer="defer"></script>
+
+</head>
+<body>
+
+<div class="page-container">
+	<form  method="post" class="form form-horizontal" id="form-article-add">
+		<input type="hidden" id="pro_id" value="{?$dataattr['pro_id']?$dataattr['pro_id']:0?}">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">产品名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{?$dataattr['pro_title']?$dataattr['pro_title']:''?}" placeholder="" id="pro_title" name="pro_title">
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">分类栏目：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="category" id="category" class="select">
+				{?foreach name="catlist" item="cat"?}
+					{?eq name="$cat.id" value="$dataattr['category']"?}
+						<option value="{?$cat.id?}" selected="selected">{?$cat.name?}</option>
+					{?else/?}
+						<option value="{?$cat.id?}">{?$cat.name?}</option>
+					{?/eq?}
+				{?/foreach?}
+				</select>
+				</span> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">试用数量：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="trial_number" placeholder="只填数字" id="trial_number" value="{?$dataattr['trial_number']?$dataattr['trial_number']:''?}" class="input-text">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">申请人数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="pro_applications" id="pro_applications" placeholder="只填数字" value="{?$dataattr['pro_applications']?$dataattr['pro_applications']:''?}" class="input-text">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">价格：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="pro_price" id="pro_price" placeholder="只填数字" value="{?$dataattr['pro_price']?$dataattr['pro_price']:''?}" class="input-text">
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">活动规则：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="activity_rules" cols="" rows="" class="textarea" id="activity_rules"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{?$dataattr['activity_rules']?$dataattr['activity_rules']:''?}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">试用要求：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="trial_requirements" cols="" rows="" id="trial_requirements" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{?$dataattr['trial_requirements']?$dataattr['trial_requirements']:''?}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">试用报告内容：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="report_content" cols="" rows="" id="report_content" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{?$dataattr['report_content']?$dataattr['report_content']:''?}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">活动时间起始：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" onfocus="WdatePicker()" value="{?$dataattr['start_time']?$dataattr['start_time']:''?}" id="logmin" class="input-text Wdate" style="width:120px;">
+				-
+				<input type="text" onfocus="WdatePicker()" value="{?$dataattr['end_time']?$dataattr['end_time']:''?}" id="logmax" class="input-text Wdate" style="width:120px;">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">活动时间流程：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="activity_time" cols="" rows="" id="activity_time" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{?$dataattr['activity_time']?$dataattr['activity_time']:''?}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+			</div>
+		</div>
+	
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<div class="uploader-thum-container">
+					<div id="preimg">
+						<img class="preview" src="{?$dataattr['pro_thumbnail']?$dataattr['pro_thumbnail']:'__STATIC__/default/default.jpg'?}">
+						<input type='hidden' class="pro_thumbnail" name='imgsrc' value='0' />
+						<input class='file' id="myFile" type='file' name='myFile' />
+					</div>
+					<!-- <button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10">开始上传</button> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">产品介绍：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<script id="editor" type="text/plain" style="width:100%;height:400px;">{?$dataattr['pro_introduction']?}</script>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交发布</button>
+				<button class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
+				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+$(function(){
+
+var ue = UE.getEditor('editor');
+/*0:草稿；1:发布；2:下架*/
+$(".btn.btn-primary.radius").click(function(){
+	validatepanduan(1);
+});
+
+$(".btn.btn-secondary.radius").click(function(){
+	validatepanduan(0);
+});
+
+
+$("#myFile").change(function(){					
+	var data = new FormData();
+	data.append("files", $("#myFile").prop("files")[0]);
+		
+	$("#container_myFile").html("Uploading...");
+	$.ajax({
+		url: "{?:url('product/productthumbnail')?}",
+		data: data,
+		type: "POST",
+		dataType: "json",
+		cache: false,
+	    contentType: false,
+		processData: false,
+		enctype: "multipart/form-data",
+		xhr: function() { 
+		        myXhr = $.ajaxSettings.xhr();
+		        if(myXhr.upload){ 
+		            myXhr.upload.addEventListener("progress",function(e){
+		            if(e.lengthComputable){
+	    			$("#container_myFile").html("<div class=\"progress\">Uploading..."+parseInt((e.loaded/e.total)*100)+" % complete</div>" );
+				}}, false); 
+			}
+			return myXhr;
+		},
+		success: function uploaded_file_myFile(result){
+			//console.log(result);
+			if (result.code) {
+    			$(".preview").attr("src",result.msg);
+			} else {
+				layer.msg(result.msg,{icon:5}); 
+			}					 
+		},
+		failure: function(jqXHR, textStatus) {
+			alert( "Oops!! Something went wrong!: " + textStatus );
+			$("#container_myFile").html(upload_html);
+			$("#myFile").change(upload_myFile_file);
+								
+			return;
+		}
+	});
+});
+
+function upload_myFile_file(){
+	var upload_html = "<input type=\"file\" name=\"myFile\" id = \"myFile\" \/>";
+	
+	if(!isAjaxUploadSupported()){ //IE fallfack
+		var iframe = document.createElement("<iframe name='upload_iframe_myFile' id='upload_iframe_myFile'>");
+	    	iframe.setAttribute("width", "0");
+		iframe.setAttribute("height", "0");
+		iframe.setAttribute("border", "0");
+		iframe.setAttribute("src","javascript:false;");
+		iframe.style.display = "none";
+						    
+		var form = document.createElement("form");
+		form.setAttribute("target", "upload_iframe_myFile");
+		form.setAttribute("action", "upload.php");
+		form.setAttribute("method", "post");
+		form.setAttribute("enctype", "multipart/form-data");
+		form.setAttribute("encoding", "multipart/form-data");
+		form.style.display = "none";
+
+	    var files = document.getElementById("myFile");
+		form.appendChild(files);
+		$("#container_myFile").html("Uploading...");
+						    
+		document.body.appendChild(form);
+		document.body.appendChild(iframe);
+		iframeIdmyFile = document.getElementById("upload_iframe_myFile");
+
+		// Add event...
+		var eventHandlermyFile = function () {
+		    if (iframeIdmyFile.detachEvent) 
+		       	iframeIdmyFile.detachEvent("onload", eventHandlermyFile);
+		    else 
+		      	iframeIdmyFile.removeEventListener("load", eventHandlermyFile, false);
+						 
+		    response = getIframeContentJSON(iframeIdmyFile);
+		    uploaded_file_myFile(response);
+		}
+						 
+		if (iframeIdmyFile.addEventListener) 
+			iframeIdmyFile.addEventListener("load", eventHandlermyFile, true);
+		if (iframeIdmyFile.attachEvent) 
+			iframeIdmyFile.attachEvent("onload", eventHandlermyFile);
+						    
+		form.submit();
+						    
+		return;
+	}
+}
+
+
+function isAjaxUploadSupported(){
+	    var input = document.createElement("input");
+	    input.type = "file";
+	
+	    return (
+	        "multiple" in input &&
+	            typeof File != "undefined" &&
+	            typeof FormData != "undefined" &&
+	            typeof (new XMLHttpRequest()).upload != "undefined" );
+}
+function getIframeContentJSON(iframe){
+    //IE may throw an "access is denied" error when attempting to access contentDocument on the iframe in some cases
+    try {
+        // iframe.contentWindow.document - for IE<7
+        var doc = iframe.contentDocument ? iframe.contentDocument: iframe.contentWindow.document,
+            response;
+
+        var innerHTML = doc.body.innerHTML;
+        //plain text response may be wrapped in <pre> tag
+        if (innerHTML.slice(0, 5).toLowerCase() == "<pre>" && innerHTML.slice(-6).toLowerCase() == "</pre>") {
+            innerHTML = doc.body.firstChild.firstChild.nodeValue;
+        }
+        response = eval("(" + innerHTML + ")");
+    } catch(err){
+        response = {success: false};
+    }
+
+    return response;
+}
+
+//二维码图片
+$(document).on('change','.file', function(){
+    //获取文件列表对象
+    var fileList = $(this)[0].files;
+    //创建文件流获取文件地址
+    var src = URL.createObjectURL(fileList[0]);
+    //设置图片路径
+    $(this).prevAll(".preview").attr("src", src);
+    //$(".preview").attr("src", src);
+});
+
+function validatepanduan(sta){
+
+	$("#form-article-add").validate({
+		rules:{
+			pro_title:{
+				required:true,
+			},
+			
+			trial_number:{
+				required:true,
+			},
+
+			pro_applications:{
+				required:true,
+			},
+			pro_price:{
+				required:true,
+			},
+			activity_rules:{
+				required:true,
+			},
+			trial_requirements:{
+				required:true,
+			},
+			report_content:{
+				required:true,
+			},
+			activity_time:{
+				required:true,
+			},
+		},
+
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+
+			if(ue.hasContents()){
+		        ue.sync();       //同步内容(内容里的图片)
+				var jsonobj = [{
+					pro_introduction : ue.getContent(),
+					pro_id : $("#pro_id").val(),
+					pro_title : $("#pro_title").val(),
+					pro_thumbnail : $(".preview").attr("src"),
+					category : $("#category option:selected").val(),
+					trial_number : $("#trial_number").val(),
+					pro_applications : $("#pro_applications").val(),
+					pro_price : $("#pro_price").val(),
+					activity_rules : $("#activity_rules").val(),
+					trial_requirements : $("#trial_requirements").val(),
+					report_content : $("#report_content").val(),
+					start_time : $("#logmin").val(),
+					end_time : $("#logmax").val(),
+					activity_time : $("#activity_time").val(),
+					stage : sta
+				}];
+				
+				var data = JSON.stringify(jsonobj);
+				
+				article_save_button(data);
+		    }
+		    else{
+		    	layer.msg("产品介绍不能为空",{icon:5}); 
+		    }
+				
+		}
+	});
+
+
+}
+
+function article_save_button(jsonstr){
+	$.ajax({
+		type:'post',
+    	url: '{?:url('product/productadd')?}', // 需要提交的 url
+    	data:{pro:jsonstr},
+    	dataType:'json',
+    	success:function(data){
+    		if (data.code) {
+    			layer.msg(data.msg,{
+    					icon:1,
+        				time:2000
+        			}, function(){
+				  		parent.location.reload();
+					}
+				); 
+    		} else {
+    			layer.msg(data.msg,{icon:5}); 
+    		}
+    		
+    		/*var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);*/
+    	}
+	});
+}
+
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/shiyong/css/paper.css"/>
+</head>
+<body>
+	<div class="page">
+		<div class="header">
+			<h1></h1>
+			<p></p>
+		</div>
+		<div class="content">
+			<p class="tit">
+			</p>
+		</div>
+		<form action="no" method="post">
+			{?php?}$a=1;{?/php?}
+			{?foreach name="$arrlist" item="v"?}
+				{?switch? name="$v.qu_type"?}
+					{?case value="1"?}
+					<div class="con01">
+						<h6>
+							<span class="red">
+							{?$v.isrequired?'*':''?}
+							<input type="hidden" class="isreq{?$a?}" value="{?$v.isrequired?}" name="">
+							</span>
+							{?$a?}.{?$v.qu_name?}
+						</h6>
+						<div class="text xuanti{?$a?}" type="{?$v.qu_type?}" quid="{?$v.qu_id?}">
+							{?neq name="$v.select01" value="0"?}
+								{?eq name="$v.select01" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select01?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select01?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select01?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select01?}</p>
+								{?/eq?}
+							{?/neq?}
+							{?neq name="$v.select02" value="0"?}
+								{?eq name="$v.select02" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select02?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select02?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select02?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select02?}</p>
+								{?/eq?}
+							{?/neq?}
+							{?neq name="$v.select03" value="0"?}
+								{?eq name="$v.select03" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select03?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select03?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select03?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select03?}</p>
+								{?/eq?}
+							{?/neq?}
+							{?neq name="$v.select04" value="0"?}
+								{?eq name="$v.select04" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select04?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select04?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select04?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select04?}</p>
+								{?/eq?}
+							{?/neq?}
+							{?neq name="$v.select05" value="0"?}
+								{?eq name="$v.select05" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select05?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select05?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select05?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select05?}</p>
+								{?/eq?}
+							{?/neq?}
+							{?neq name="$v.select06" value="0"?}
+								{?eq name="$v.select06" value="$v.an_content"?}
+									<p><input type="radio" checked="checked" value="{?$v.select06?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select06?}</p>
+								{?else/?}
+									<p><input type="radio" value="{?$v.select06?}" class="ss{?$a?}" name="dx{?$a?}">{?$v.select06?}</p>
+								{?/eq?}
+							{?/neq?}
+						</div>
+					</div>
+					{?/case?}
+					{?case value="2"?}
+					<div class="con01">
+						<h6>
+							<span class="red">
+							{?$v.isrequired?'*':''?}
+							<input type="hidden" class="isreq{?$a?}" value="{?$v.isrequired?}" name="">
+							</span>
+							{?$a?}.{?$v.qu_name?}
+							<span class="blue">【多选题】</span>
+						</h6>
+						<div class="text xuanti{?$a?}" type="{?$v.qu_type?}" quid="{?$v.qu_id?}">
+						{?php?}$answer=explode("|",$v['an_content']);{?/php?}
+							{?neq name="$v.select01" value="0"?}
+								{?if condition="in_array($v.select01,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select01?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select01?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select01?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select01?}</p>
+								{?/if?}
+							{?/neq?}
+							{?neq name="$v.select02" value="0"?}
+								{?if condition="in_array($v.select02,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select02?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select02?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select02?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select02?}</p>
+								{?/if?}
+							{?/neq?}
+							{?neq name="$v.select03" value="0"?}
+								{?if condition="in_array($v.select03,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select03?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select03?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select03?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select03?}</p>
+								{?/if?}
+							{?/neq?}
+							{?neq name="$v.select04" value="0"?}
+								{?if condition="in_array($v.select04,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select04?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select04?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select04?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select04?}</p>
+								{?/if?}
+							{?/neq?}
+							{?neq name="$v.select05" value="0"?}
+								{?if condition="in_array($v.select05,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select05?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select05?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select05?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select05?}</p>
+								{?/if?}
+							{?/neq?}
+							{?neq name="$v.select06" value="0"?}
+								{?if condition="in_array($v.select06,$answer)"?}
+									<p><input type="checkbox" checked="checked" value="{?$v.select06?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select06?}</p>
+								{?else/?}
+									<p><input type="checkbox" value="{?$v.select06?}" class="ms{?$a?}" name="ms{?$a?}">{?$v.select06?}</p>
+								{?/if?}
+							{?/neq?}
+						</div>
+					</div>
+					{?/case?}
+					{?case value="3"?}
+					<div class="con01 con02">
+						<h6>
+							<span class="red">
+							{?$v.isrequired?'*':''?}
+							<input type="hidden" class="isreq{?$a?}" value="{?$v.isrequired?}" name="">
+							</span>
+							{?$a?}.{?$v.qu_name?}
+						</h6>
+						<p class="red">图片要求无美颜，清晰</p>
+						<div class="text xuanti{?$a?}" type="{?$v.qu_type?}" quid="{?$v.qu_id?}">
+							<div class="file">
+								<img src="__STATIC__/shiyong/images/xiao.jpg"/>
+								<span>选择文件(不超过10M)</span>
+								<!--<input type="file" value="选择文件(不超过10M)" name="shengli">-->
+								<input id="pic" class="pic{?$a?}" type="file" name ='pic' />
+							</div>
+							<div id="result"><img class="show showimg{?$a?}" src="{?$v.an_content?}"></div>
+						</div>
+					</div>
+					{?/case?}
+					{?case value="4"?}
+					<div class="con01">
+						<h6>
+							<span class="red">
+							{?$v.isrequired?'*':''?}
+							<input type="hidden" class="isreq{?$a?}" value="{?$v.isrequired?}" name="">
+							</span>
+							{?$a?}.{?$v.qu_name?}
+						</h6>
+						<div class="text xuanti{?$a?}" type="{?$v.qu_type?}" quid="{?$v.qu_id?}">
+							<textarea name="text" class="fill{?$a?}" cols="90" rows="10" >{?$v.an_content?}</textarea>
+						</div>
+					</div>
+					{?/case?}
+					{?default /?}<h6>没有数据</h6>
+				{?/switch?}
+			{?php?}$a++;{?/php?}
+			{?/foreach?}
+			
+			<!-- <div class="con01">
+				<div class="tijiao"><input type="button" name="tijiao" id="tj" onClick="save()" value="提交" /></div>
+				
+			</div> -->
+		</form>
+	</div>
+
+</body>
+<script class=" defer" src="__STATIC__/shiyong/js/jquery-2.0.2.min.js"></script>
+<script type="text/javascript">
+$(".pic").each(function(index, element) {
+	var pic = $(this);
+	pic.change(function(){
+		var data = new FormData();
+		data.append("files", pic.prop("files")[0]);
+			
+		/*$("#container_myFile").html("Uploading...");*/
+		$.ajax({
+			url: "{?:url('Ajax/thumbnail')?}",
+			data: data,
+			type: "POST",
+			dataType: "json",
+			cache: false,
+		    contentType: false,
+			processData: false,
+			enctype: "multipart/form-data",
+			xhr: function() { 
+			        myXhr = $.ajaxSettings.xhr();
+			        if(myXhr.upload){ 
+			            myXhr.upload.addEventListener("progress",function(e){
+			            if(e.lengthComputable){
+		    			$("#container_myFile").html("<div class=\"progress\">Uploading..."+parseInt((e.loaded/e.total)*100)+" % complete</div>" );
+					}}, false); 
+				}
+				return myXhr;
+			},
+			success: function uploaded_file_myFile(result){
+				//console.log(result);
+				if (result.code) {
+					pic.parent().parent(".text").children().children('.show').attr('src',result.msg);
+				} else {
+					pic.parent().parent(".text").parent(".con01.con02").children(".red").text(result.msg);
+				}					 
+			},
+			failure: function(jqXHR, textStatus) {
+				alert( "Oops!! Something went wrong!: " + textStatus );
+				$("#container_myFile").html(upload_html);
+				$("#myFile").change(upload_myFile_file);
+									
+				return;
+			}
+		});
+	});
+});
+
+function upload_myFile_file(){
+	var upload_html = "<input type=\"file\" name=\"myFile\" id = \"myFile\" \/>";
+	
+	if(!isAjaxUploadSupported()){ //IE fallfack
+		var iframe = document.createElement("<iframe name='upload_iframe_myFile' id='upload_iframe_myFile'>");
+	    	iframe.setAttribute("width", "0");
+		iframe.setAttribute("height", "0");
+		iframe.setAttribute("border", "0");
+		iframe.setAttribute("src","javascript:false;");
+		iframe.style.display = "none";
+						    
+		var form = document.createElement("form");
+		form.setAttribute("target", "upload_iframe_myFile");
+		form.setAttribute("action", "upload.php");
+		form.setAttribute("method", "post");
+		form.setAttribute("enctype", "multipart/form-data");
+		form.setAttribute("encoding", "multipart/form-data");
+		form.style.display = "none";
+
+	    var files = document.getElementById("myFile");
+		form.appendChild(files);
+		$("#container_myFile").html("Uploading...");
+						    
+		document.body.appendChild(form);
+		document.body.appendChild(iframe);
+		iframeIdmyFile = document.getElementById("upload_iframe_myFile");
+
+		// Add event...
+		var eventHandlermyFile = function () {
+		    if (iframeIdmyFile.detachEvent) 
+		       	iframeIdmyFile.detachEvent("onload", eventHandlermyFile);
+		    else 
+		      	iframeIdmyFile.removeEventListener("load", eventHandlermyFile, false);
+						 
+		    response = getIframeContentJSON(iframeIdmyFile);
+		    uploaded_file_myFile(response);
+		}
+						 
+		if (iframeIdmyFile.addEventListener) 
+			iframeIdmyFile.addEventListener("load", eventHandlermyFile, true);
+		if (iframeIdmyFile.attachEvent) 
+			iframeIdmyFile.attachEvent("onload", eventHandlermyFile);
+						    
+		form.submit();
+						    
+		return;
+	}
+}
+
+
+function isAjaxUploadSupported(){
+	    var input = document.createElement("input");
+	    input.type = "file";
+	
+	    return (
+	        "multiple" in input &&
+	            typeof File != "undefined" &&
+	            typeof FormData != "undefined" &&
+	            typeof (new XMLHttpRequest()).upload != "undefined" );
+}
+function getIframeContentJSON(iframe){
+    //IE may throw an "access is denied" error when attempting to access contentDocument on the iframe in some cases
+    try {
+        // iframe.contentWindow.document - for IE<7
+        var doc = iframe.contentDocument ? iframe.contentDocument: iframe.contentWindow.document,
+            response;
+
+        var innerHTML = doc.body.innerHTML;
+        //plain text response may be wrapped in <pre> tag
+        if (innerHTML.slice(0, 5).toLowerCase() == "<pre>" && innerHTML.slice(-6).toLowerCase() == "</pre>") {
+            innerHTML = doc.body.firstChild.firstChild.nodeValue;
+        }
+        response = eval("(" + innerHTML + ")");
+    } catch(err){
+        response = {success: false};
+    }
+
+    return response;
+}
+
+
+function save(){
+	
+	var json = [];
+	var paperid = $(".paperid").val();
+	var papertitle = $(".papertitle").val();
+	var userid = $(".userid").val();
+	var username = $(".username").val();
+	var proid = $(".proid").val();
+	var protitle = $(".protitle").val();
+	var or_id = $(".or_id").val();
+	var firstrow = {
+		'paperid':paperid,
+		'papertitle':papertitle,
+		'userid':userid,
+		'username':username,
+		'proid':proid,
+		'protitle':protitle,
+		'or_id':or_id
+	};
+	json.push(firstrow);
+	var re = false;
+	var a = 1;
+	var textlen = $(".text").length;
+	for (var i = 1; i <= textlen; i++) {
+		var xuanti = ".xuanti" + i;
+		var qu_type = $(xuanti).attr("type");
+		var qu_id = $(xuanti).attr("quid");
+		switch(qu_type)
+		{
+			case "1":
+				var ss = ".ss"+i+":checked";
+				var content = $(ss).val();
+
+			  	break;
+			case "2":
+				var arr = [];
+				var ms =".ms"+i+":checked";
+				$(ms).each(function (index, item) {
+					arr.push($(this).val());
+				});
+				var content = arr.join("|");
+			  	break;
+			case "3":
+			  	var im = xuanti+">div#result>img"
+			  	var content = $(im).attr("src");
+			  	break;
+			case "4":
+			  	var tk = ".fill"+i;
+			  	var content = $(tk).val();
+			  	break;
+			default:
+			  	var content = "";
+		}
+		if (content != '' || content!= undefined || content != null) {
+			re = true;
+			break;
+		}
+		var row = {
+			'pa_id':paperid,
+			'use_id':userid,
+			'number':i,
+			'qu_id':qu_id,
+	 		'qu_type':qu_type,
+	 		'an_content':content
+	 	};
+	 	json.push(row);
+	}
+	if (re) {
+		var jsonStr = JSON.stringify(json);
+		console.log(jsonStr);
+		postpaper(jsonStr);
+
+	}
+	else{
+		alert("第"+i+"题没有填写！！！");
+	}
+
+}
+
+function postpaper(str){
+	$.ajax({
+		type:'post',
+    	url: '{?:url('Ajax/DealWithPaper')?}', // 需要提交的 url
+    	data:{jsonstr:str},
+    	dataType:'json',
+    	success:function(data){
+    		console.log(data);
+    		if (data.code) {
+    			alert(data.msg);
+                parent.PCDialog.hide();
+    		} else {
+    			alert(data.msg);
+    		}
+    	}
+	});
+}
+
+
+</script>
+</html>

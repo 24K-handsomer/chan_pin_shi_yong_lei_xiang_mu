@@ -1,0 +1,87 @@
+<!--header-->
+{?include file="public/_meta" /?}
+<title>更改阶段</title>
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/layer/2.4/skin/layer.css" type="text/css">
+<link href="__STATIC__/hadmin/lib/My97DatePicker/4.8/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="page-container">
+	<form  class="form form-horizontal" id="form-category-add">
+		<input type="hidden" value="{?$pro_id?}" id="pro_id" name="pto_id">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				<span class="c-red">*</span>
+				分类名称：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				{?foreach name="statuslist" item="sta"?}
+					{?eq name="$sta.sta_id" value="$status"?}
+						<div><input type="radio" name="status" value="{?$sta.sta_id?}" checked="checked" />{?$sta.sta_name?}</div>
+					{?else/?}
+						<div><input type="radio" name="status" value="{?$sta.sta_id?}"/>{?$sta.sta_name?}</div>
+					{?/eq?}
+				{?/foreach?}
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-2">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+{?include file="public/_footer" /?}
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$("#form-category-add").validate({
+		rules:{
+			
+		},
+
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			var id = $("#pro_id").val();
+			var sta = $("input[name='status']:checked").val();
+			$.ajax({
+				type:'post',
+            	url: '{?:url('product/productstatuc')?}', // 需要提交的 url
+            	data:{
+            		'pro_id':id,
+            		'status':sta
+            	},
+            	dataType:'json',
+            	success:function(data){
+            		if (data.code) {
+            			layer.msg(data.msg,{
+            					icon:1,
+	            				time:2000
+	            			}, function(){
+						  		parent.location.reload();
+							}
+						); 
+            		} else {
+            			layer.msg(data.msg,{icon:5}); 
+            		}
+            		
+            		/*var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);*/
+            	}
+			});
+			
+			
+		}
+	});
+});
+</script>
+</body>
+</html>

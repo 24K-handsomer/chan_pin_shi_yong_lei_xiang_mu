@@ -1,0 +1,97 @@
+<!--header-->
+{?include file="public/_meta" /?}
+<title>添加产品分类</title>
+<link rel="stylesheet" href="__STATIC__/hadmin/hui-admin/lib/layer/2.4/skin/layer.css" type="text/css">
+<link href="__STATIC__/hadmin/lib/My97DatePicker/4.8/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-category-add">
+		<input type="hidden" value="{?$id?}" id="cat-id" name="id">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				<span class="c-red">*</span>
+				分类名称：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<input type="text" class="input-text" value="{?$name?}" placeholder="" id="cat-name" name="name">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				<span class="c-red">*</span>
+				排序号：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<input type="text" class="input-text" value="{?$sortID?}" placeholder="只填数字" id="cat-sortID" name="sortID">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-2">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+{?include file="public/_footer" /?}
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#form-category-add").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength:1
+			},
+			sortID:{
+				required:true,
+				minlength:1
+			},
+		},
+
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			var id = $("#cat-id").val();
+			var name = $("#cat-name").val();
+			var sortID = $("#cat-sortID").val();
+			$.ajax({
+				type:'post',
+            	url: '{?:url('product/productcategoryadd')?}', // 需要提交的 url
+            	data:{
+            		'id':id,
+            		'name':name,
+            		'sortID':sortID
+            	},
+            	dataType:'json',
+            	success:function(data){
+            		if (data.code) {
+            			layer.msg(data.msg,{
+            					icon:1,
+	            				time:2000
+	            			}, function(){
+						  		parent.location.reload();
+							}
+						); 
+            		} else {
+            			layer.msg(data.msg,{icon:5}); 
+            		}
+            		
+            		/*var index = parent.layer.getFrameIndex(window.name);
+					parent.layer.close(index);*/
+            	}
+			});
+			
+			
+		}
+	});
+});
+</script>
+</body>
+</html>

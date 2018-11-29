@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Leail测评 打造零触优质产品体验</title>
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/style.css">
+	<link rel="stylesheet" href="__STATIC__/shiyong/css/cmt.min.css">
+	<!--[if IE 6]><script>document.execCommand("BackgroundImageCache", false, true)</script><![endif]-->
+</head>
+<body>
+<!--头部-->
+{?include file="Public/head" /?}
+<!--进度-->
+<div class="main step">
+	<ul>
+		<li class="{?$prolist.status==1?'current':''?}">
+			<em class="line"></em>
+			<em class="num">01</em>
+			<em class="title">即将开始</em>
+		</li>
+		<li class="{?$prolist.status==2?'current':''?}">
+			<em class="line"></em>
+			<em class="num">02</em>
+			<em class="title">申请试用</em>
+		</li>
+		<li class="{?$prolist.status==3?'current':''?}">
+			<em class="line"></em>
+			<em class="num">03</em>
+			<em class="title">提交报告</em>
+		</li>
+		<li class="{?$prolist.status==4?'current':''?}">
+			<em class="line"></em>
+			<em class="num">04</em>
+			<em class="title">试用结束</em>
+		</li>
+	</ul>
+</div>
+<!--详情文字-->
+<div class="txtContext txtContext2 shadow border main mb30">
+	<div class="txtContext2-Con">
+	<div class="side fl">
+		<div id="Jline" style="height:1px;"></div>
+		<div class="sideFixed" id="JsideFixed">
+			<!-- <a href="#"><img src="images/tou01.jpg" width="100" height="100" alt=""></a> -->
+			<a href="#"><i id="accountNickName" style="font-size: 24px;">{?$report['use_name']?}</i></a>
+			<!-- <i class="lgray" id="babyAge">宝宝年龄：4岁5个月</i> -->
+		</div>
+	</div>
+	<div class="oh ">
+		<h1>
+			{?$report['re_title']?}
+		</h1>
+		<div class="txtCon-subInfo">
+			<span>发表时间：{?$report['create_time']?}</span> 
+			<!-- <span>回复：<em class="red" id="commentCount">3</em></span> --> 
+			<!-- <span id="like-count" class="praise">赞：<em class="red">520</em></span> -->
+		</div>
+		<div class="txtCon-Txt">
+			
+			{?php?}
+				$str = strip_tags($report['re_content'],'<p>,<img>');
+				$search = array('<p>','<img');
+  				$replace = array("<p class='txt'>","<img class='img_link' ");
+  				echo str_replace($search,$replace,$str);
+			{?/php?}
+		</div>
+		
+		<div class="txtCon-rating">
+			<div class="txtCon-rating-total">
+				<em>10</em> <i>总分：10分</i>
+			</div>
+			<div class="txtCon-rating-list">
+				<ul>
+						<li><span class="sT fl">口感:&nbsp;&nbsp;</span> <span class="sI">
+						<span class="rating">
+						<span class="rating-inner tenPoint"></span></span></span>
+						<span class="rating-score">（10分）</span></li>
+						<li><span class="sT fl">营养价值:&nbsp;&nbsp;</span> <span class="sI">
+						<span class="rating">
+						<span class="rating-inner tenPoint"></span></span></span>
+						<span class="rating-score">（10分）</span></li>
+						<li><span class="sT fl">安全性:&nbsp;&nbsp;</span> <span class="sI">
+						<span class="rating">
+						<span class="rating-inner tenPoint"></span></span></span>
+						<span class="rating-score">（10分）</span></li>
+						<li><span class="sT fl">性价比:&nbsp;&nbsp;</span> <span class="sI">
+						<span class="rating">
+						<span class="rating-inner tenPoint"></span></span></span>
+						<span class="rating-score">（10分）</span></li>
+				</ul>
+				<p class="clearfix"></p>
+			</div>
+		</div>
+		<!-- <div class="txtCon-share clearfix">
+			<a href="javascript:void(0);" class="aBtn-praise">赞（33）</a>
+		</div> -->
+	</div>
+	<div class="cmtcontainer">
+	<!-- <div class="cmtarea">
+		<div class="cmtarea-header"><strong class="cmtHd-tit">网友评论</strong><span class="cmtarea-cmtCount"><a href="#">评论<em class="cmtDetail" id="JcmtDetail">15</em>条，查看全部&gt;&gt;</a></span></div>
+		<div class="cmtarea-section">
+			<div class="cmtarea-section-content">
+				<div class="cmtarea-section-content-editor" id="editor_6lf37pilu5g" style="color: rgb(204, 204, 204);"><input style="width: 100%;border: none;" type="text" placeholder="注：所有评论通过审核后才会被公开。" /></div>
+			</div>
+		</div>
+		<div class="cmtarea-footer">
+			<a class="cmtarea-sendBtn" href="#">发表评论</a>
+		</div>
+	</div> -->
+	<!-- <div class="cmtcontent" id="Jcmtcontent">
+		<div class="cmtListItem-wrap">
+			<div class="realcmtListItemWrap" id="JrealcmtListItemWrap">
+				<div class="cmtList">
+					<div class="cmtList-avator">
+						<a href="#"><img src="images/xiao01.jpg" width="50" height="50"></a>
+					</div>
+					<div class="cmtList-detail">
+						<div class="cmtList-detail-header"><span class="cmtList-detail-floor">3楼</span>
+							<a href="#" class="cmtList-detail-user">小白龙的机器猫</a><span class="cmtList-detail-time">2018-05-22 10:18:09</span>
+							<a href="javascrip:;" class="cmtList-detail-tools-vote"><span class="like-icon"></span><em><b class="realVote-num">0</b></em><i>+1</i></a>
+						</div>
+						reply
+						<p class="cmtList-detail-commment">哇~我还在惆怅宝宝的肠胃问题，看到亲亲的分享觉得很适用呢，下次再也不用担心啦~</p>
+						<div class="cmtList-detail-tools">
+							<a href="javascrip:;" class="reply-btn"><i class="reply-icon"></i>回复</a>
+						</div>
+					</div>
+				</div>
+				<div class="cmtList">
+					<div class="cmtList-avator">
+						<a href="#"><img src="images/xiao02.jpg" width="50" height="50"></a>
+					</div>
+					<div class="cmtList-detail">
+						<div class="cmtList-detail-header"><span class="cmtList-detail-floor">3楼</span>
+							<a href="#" class="cmtList-detail-user">小白龙的机器猫</a><span class="cmtList-detail-time">2018-05-22 10:18:09</span>
+							<a href="javascrip:;" class="cmtList-detail-tools-vote"><span class="like-icon"></span><em><b class="realVote-num">0</b></em><i>+1</i></a>
+						</div>
+						reply
+						<p class="cmtList-detail-commment">哇~我还在惆怅宝宝的肠胃问题，看到亲亲的分享觉得很适用呢，下次再也不用担心啦~</p>
+						<div class="cmtList-detail-tools">
+							<a href="javascrip:;" class="reply-btn"><i class="reply-icon"></i>回复</a>
+						</div>
+					</div>
+				</div>
+				<div class="cmtList">
+					<div class="cmtList-avator">
+						<a href="#"><img src="images/xiao02.jpg" width="50" height="50"></a>
+					</div>
+					<div class="cmtList-detail">
+						<div class="cmtList-detail-header"><span class="cmtList-detail-floor">3楼</span>
+							<a href="#" class="cmtList-detail-user">小白龙的机器猫</a><span class="cmtList-detail-time">2018-05-22 10:18:09</span>
+							<a href="javascrip:;" class="cmtList-detail-tools-vote"><span class="like-icon"></span><em><b class="realVote-num">0</b></em><i>+1</i></a>
+						</div>
+						reply
+						<p class="cmtList-detail-commment">哇~我还在惆怅宝宝的肠胃问题，看到亲亲的分享觉得很适用呢，下次再也不用担心啦~</p>
+						<div class="cmtList-detail-tools">
+							<a href="javascrip:;" class="reply-btn"><i class="reply-icon"></i>回复</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</div>
+</div>
+</div>
+<div class="footer">
+	<p>未经授权禁止转载、摘编、复制或建立镜像，如有违反，追究法律责任。</p>
+	<p><a href="#">网站备案号：鲁ICP备17015192号-2</a></p>
+	<p><a href="#"><img src="__STATIC__/shiyong/images/ft-ghs.png"/>鲁公网安备 44010602000158号</a></p>
+</div>
+</body>

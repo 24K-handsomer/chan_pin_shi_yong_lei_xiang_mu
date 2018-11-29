@@ -1,0 +1,334 @@
+<!--header-->
+{?include file="public/_meta" /?}
+<title>申请书列表</title>
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="__STATIC__/hadmin/lib/layer/2.4/skin/layer.css" id="layui_layer_skinlayercss">
+<link href="__STATIC__/hadmin/lib/My97DatePicker/4.8/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 试用申请管理 <span class="c-gray en">&gt;</span> 申请列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<form action="{?:url('application/downloadexcel')?}" method="post" >
+	<input type="hidden" name="p_type" value="1">
+	<div class="text-c"> 日期范围：
+		<input type="text" name="starttime" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" name="endtime" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
+		<input type="text" name="protitle" id="" placeholder=" 产品名称" style="width:250px" class="input-text">
+		<button name="" id="" class="btn btn-success download" type="submit"><i class="Hui-iconfont">&#xe640;</i> 导出表</button>
+	</div>
+	</form>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-hover table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40"><input name="" type="checkbox" value=""></th>
+					<th width="40">ID</th>
+					<th width="100">申请书名</th>
+					<th width="150">产品名</th>
+					<th width="60">申请人</th>
+					<th width="100">申请时间</th>
+					<th width="100">状态</th>
+					<th width="60">操作</th>
+				</tr>
+			</thead>
+			<tbody> 
+
+				{?foreach name="list" item="data"?}
+				<tr class="text-c va-m">
+					<td><input name="" type="checkbox" class="pro_id" value="{?$data.app_id?}"></td>
+					<td>{?$data.app_id?}</td>
+					<td>
+						<a style="text-decoration:none" onClick="product_show('{?$data.app_title?}_{?$data.use_name?}','applicationshow','{?$data.app_paperid?}','{?$data.use_id?}')" href="javascript:;">{?$data.app_title?}</a>
+					</td>
+					<td>
+						<a style="text-decoration:none" onClick="product_list('{?$data.pro_title?}','productlist','{?$data.pro_id?}')" href="javascript:;">{?$data.pro_title?}</a>
+					</td>
+					<td>
+						<a style="text-decoration:none" onClick="order_show('{?$data.use_name?}','ordershow','{?$data.or_id?}')" href="javascript:;">{?$data.use_name?}</a>
+					</td>
+					<td>
+						{?$data.create_time?}
+					</td>
+					<td class="td-status">
+						{?switch name="$data.status"?}
+							{?case value="1"?}
+								<span class="label label-success radius">已通过</span>
+							{?/case?}
+							{?case value="2"?}
+								<span class="label label-defaunt radius">未通过</span>
+							{?/case?}
+							{?default /?}<span class="label label-defaunt radius">审核中...</span>
+						{?/switch?}
+
+
+					</td>
+					<td class="td-manage">
+						
+						<a style="text-decoration:none" onClick="app_shenhe(this,'{?$data.app_id?}')" href="javascript:;" title="审核">
+							<i class="Hui-iconfont">&#xe6de;</i>
+						</a>
+						<a style="text-decoration:none" class="ml-5" onClick="app_del(this,'{?$data.app_id?}')" href="javascript:;" title="删除">
+							<i class="Hui-iconfont">&#xe6e2;</i>
+						</a>
+					</td>
+				</tr>
+				{?/foreach?}
+				
+			</tbody>
+		</table>
+	</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/hadmin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/hadmin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+var setting = {
+	view: {
+		dblClickExpand: false,
+		showLine: false,
+		selectedMulti: false
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pId",
+			rootPId: ""
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree");
+			if (treeNode.isParent) {
+				zTree.expandNode(treeNode);
+				return false;
+			} else {
+				//demoIframe.attr("src",treeNode.file + ".html");
+				return true;
+			}
+		}
+	}
+};
+
+var zNodes =[
+	{ id:1, pId:0, name:"一级分类", open:true},
+	{ id:11, pId:1, name:"二级分类"},
+	{ id:111, pId:11, name:"三级分类"},
+	{ id:112, pId:11, name:"三级分类"},
+	{ id:113, pId:11, name:"三级分类"},
+	{ id:114, pId:11, name:"三级分类"},
+	{ id:115, pId:11, name:"三级分类"},
+	{ id:12, pId:1, name:"二级分类 1-2"},
+	{ id:121, pId:12, name:"三级分类 1-2-1"},
+	{ id:122, pId:12, name:"三级分类 1-2-2"},
+];
+		
+		
+		
+$(document).ready(function(){
+	/*var t = $("#treeDemo");
+	t = $.fn.zTree.init(t, setting, zNodes);
+	//demoIframe = $("#testIframe");
+	//demoIframe.on("load", loadReady);
+	var zTree = $.fn.zTree.getZTreeObj("tree");*/
+	//zTree.selectNode(zTree.getNodeByParam("id",'11'));
+});
+
+$('.table-sort').dataTable({
+	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+	"bStateSave": true,//状态保存
+	"aoColumnDefs": [
+	  {"orderable":false,"aTargets":[0,7]}// 制定列不参与排序
+	]
+});
+
+function product_status(url,id,sta){
+	var newurl = url + "?pro_id=" + id + "&status=" + sta;
+	layer_show("更改所属阶段",newurl,500,500);
+}
+
+/*产品-添加*/
+
+function product_add(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*产品-查看*/
+/*applicationshow*/
+function product_show(title,url,paid,userid){
+	var newurl = url + "?pa_id=" + paid + "&use_id="+userid;
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: newurl
+	});
+	layer.full(index);
+}
+
+/*地址*/
+function order_show(title,url,orid){
+	var newurl = url + "?or_id=" + orid;
+	var index = layer.open({
+		type: 2,
+		title: title,
+		area: ['50%', '50%'],
+		content: newurl
+	});
+	layer.full(index);
+}
+/*产品-审核*/
+function app_shenhe(obj,id){
+	layer.confirm('审核文章？', {
+		btn: ['通过','不通过'], 
+		shade: false
+	},
+	function(){
+		status_change(id,1);
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已通过</span>');
+		/*$(obj).remove();*/
+		/*layer.msg('已通过', {icon:6,time:1000});*/
+	},
+	function(){
+		status_change(id,2);
+		$(obj).parents("tr").find(".td-status").html('<span class="label label-danger radius">未通过</span>');
+		/*$(obj).remove();*/
+    	/*layer.msg('未通过', {icon:5,time:1000});*/
+	});	
+}
+/*产品-下架*/
+function product_stop(obj,id,stage){
+	layer.confirm('确认要下架吗？',function(index){
+		stage_change(id,stage);
+		$(obj).parents("tr").find(".td-stage").html('<span class="label label-defaunt radius">已下架</span>&nbsp;&nbsp;&nbsp;&nbsp;<a style="text-decoration:none" onClick="product_start(this,'+id+',1)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
+		layer.msg('已下架!',{icon: 5,time:1000});
+	});
+}
+
+/*产品-发布*/
+function product_start(obj,id,stage){
+	layer.confirm('确认要发布吗？',function(index){
+		stage_change(id,stage);
+		$(obj).parents("tr").find(".td-stage").html('<span class="label label-success radius">已发布</span>&nbsp;&nbsp;&nbsp;&nbsp;<a style="text-decoration:none" onClick="product_stop(this,'+id+',2)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>');
+		layer.msg('已发布!',{icon: 6,time:1000});
+	});
+}
+
+/*产品-申请上线*/
+function product_shenqing(obj,id){
+	$(obj).parents("tr").find(".td-stage").html('<span class="label label-default radius">待审核</span>');
+	$(obj).parents("tr").find(".td-manage").html("");
+	layer.msg('已提交申请，耐心等待审核!', {icon: 1,time:2000});
+}
+
+/*产品-编辑*/
+function product_edit(title,url,id){
+	var newurl = url + "?pro_id=" + id;
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: newurl
+	});
+	layer.full(index);
+}
+
+/*产品发布状态更改*/
+function status_change(id,status){
+	$.ajax({
+		type:'post',
+    	url: '{?:url('application/statuschange')?}', // 需要提交的 url
+    	data:{
+    		'app_id':id,
+    		'status':status
+    	},
+    	dataType:'json',
+    	success:function(data){
+    		if (data.code) {
+    			layer.msg(data.msg,{icon:6,time:1000}); 
+    		} else {
+    			layer.msg(data.msg,{icon:5,time:1000}); 
+    		}
+    	}
+	});
+}
+
+/*产品-删除*/
+function app_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '{?:url('application/applicationdel')?}',
+			data: {'app_id':id},
+			dataType: 'json',
+			success: function(data){
+				if (data.code) {
+					$(obj).parents("tr").remove();
+					layer.msg(data.msg,{icon:1,time:1000});
+				} else {
+					layer.msg(data.msg,{icon:5,time:1000});
+					exit;
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+
+/*产品-批量删除*/
+function datadel(){
+	var jc=$(".pro_id");
+    var str="";
+    for(var i=0;i<jc.length;i++)
+    {
+        if(jc.eq(i).prop("checked"))
+        {
+            str+=jc.eq(i).val()+"|";
+        }
+    }
+
+    str = str.substr(0,str.length-1);
+    
+    if (str) {
+    	$.ajax({
+	        //async:false,
+	        url:"{?:url('product/datadel')?}",
+	        data:{'tab':'product','field':'pro_id','str':str},
+	        type:"POST",
+	        dataType:"json",
+	        success: function(data){
+	            if (data.code) {
+					layer.msg(data.msg,{icon:1,time:1000},function(){
+						location.replace(location.href);
+					});
+					
+				} else {
+					layer.msg(data.msg,{icon:5,time:1000});
+				}
+	        },
+	    });
+    }
+    
+}
+
+</script>
+
+{?include file="public/_footer" /?}
+</body>
+</html>
